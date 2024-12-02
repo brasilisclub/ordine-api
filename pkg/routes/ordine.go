@@ -1,11 +1,10 @@
 package routes
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"ordine-api/pkg/ordine"
+	"ordine-api/pkg/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,14 +17,11 @@ func OrdineRoutes(r *gin.Engine) {
 			})
 	})
 	r.POST("/ordine", func(ctx *gin.Context) {
-		defer ctx.Request.Body.Close()
-		body, err := io.ReadAll(ctx.Request.Body)
-		if err != nil {
-			ctx.String(http.StatusBadRequest, "Error reading body request")
-		}
-
 		ord := ordine.Ordine{}
-		err = json.Unmarshal(body, &ord)
+
+		defer ctx.Request.Body.Close()
+		err := utils.UnmarshalBody(ctx.Request.Body, &ord)
+
 		if err != nil {
 			ctx.String(http.StatusBadRequest, fmt.Sprintf("Error trying unmarshal request body: %s", err.Error()))
 		}
