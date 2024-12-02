@@ -19,12 +19,13 @@ func ProductRoutes(r *gin.Engine) {
 		defer ctx.Request.Body.Close()
 		body, err := io.ReadAll(ctx.Request.Body)
 		if err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{
-				"error": "Cannot Read body request",
-			})
+			ctx.String(http.StatusBadRequest, "Error reading body request")
 		}
-		productBody := ordine.ProductBody{}
+		productBody := ordine.Product{}
 		err = json.Unmarshal(body, &productBody)
+		if err != nil {
+			ctx.String(http.StatusBadRequest, "Error trying unmarshal request body")
+		}
 		ctx.JSON(http.StatusCreated, gin.H{
 			"name": productBody.Name,
 		})
