@@ -1,0 +1,16 @@
+services:
+  api:
+    image: golang:1.23.3
+    working_dir: /app
+    command: go run main.go
+    volumes:
+      - .:/app
+    ports:
+      - "8080:8080"
+
+    # depends_on:
+    #   database:
+    #     condition: service_healthy
+
+  database:
+    image: mysql:9.1.0
