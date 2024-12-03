@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"ordine-api/pkg/database"
 	"ordine-api/pkg/routes"
 
 	"github.com/gin-gonic/gin"
@@ -26,6 +27,7 @@ var migrateCmd = &cobra.Command{
 	Short: "A brief description of your application",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
+		database.Migrate()
 	},
 }
 
