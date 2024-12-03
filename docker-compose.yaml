@@ -1,16 +1,36 @@
 services:
-  api:
+  api: &base
     image: golang:1.23.3
     working_dir: /app
-    command: go run main.go
+    command: go run main.go run
     volumes:
       - .:/app
     ports:
       - "8080:8080"
-
-    # depends_on:
-    #   database:
-    #     condition: service_healthy
+    depends_on:
+      database:
+        condition: service_healthy
+  migrate: 
+    <<: *base
+    command: go run main.go migrate
 
   database:
     image: mysql:9.1.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: bob_live
+      MYSQL_PASSWORD: pwdlocal
+      MYSQL_DATABASE: ordine
+      TZ: "America/Sao_Paulo"
+    volumes:
+      - database:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-uroot", "-proot"]
+      interval: 10s
+      retries: 3000
+      start_period: 60s
+      timeout: 5s
+    ports:
+      - "3306:3306"
+volumes:
+  database: {}

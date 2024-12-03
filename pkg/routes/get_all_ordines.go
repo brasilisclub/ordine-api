@@ -7,8 +7,7 @@ import (
 )
 
 func getAllOrdines(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK,
-		gin.H{
-			"name": "test",
-		})
+	ctx.JSON(http.StatusOK, gin.H{
+		"name": "test",
+	})
 }
