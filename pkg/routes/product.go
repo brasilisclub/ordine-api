@@ -7,8 +7,8 @@ import (
 )
 
 func ProductRoutes(r *gin.Engine) {
-	r.GET("/product", getAllProducts)
+	r.GET("/product", product.GetProducts)
 	r.POST("/product", product.PostProduct)
 	r.PUT("/product/:id", updateProduct)
-	r.DELETE("/product/:id", deleteProduct)
+	r.DELETE("/product/:id", product.DeleteProduct)
 }

@@ -25,5 +25,5 @@ func PostProduct(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, product)
+	ctx.JSON(http.StatusCreated, product)
 }
