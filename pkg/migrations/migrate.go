@@ -1,7 +1,9 @@
-package ordine
+package migrations
 
 import (
 	"ordine-api/pkg/database"
+	"ordine-api/pkg/ordine"
+	"ordine-api/pkg/product"
 
 	"github.com/sirupsen/logrus"
 )
@@ -11,6 +13,6 @@ func Migrate() {
 	if err != nil {
 		logrus.Errorf("Error getting database connector %s", err.Error())
 	}
-	db.AutoMigrate(&Ordine{}, &Product{})
+	db.AutoMigrate(&ordine.Ordine{}, &product.Product{})
 	logrus.Info("Migrations successfully executed!")
 }

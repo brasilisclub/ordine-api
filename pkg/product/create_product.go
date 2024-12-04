@@ -1,4 +1,4 @@
-package ordine
+package product
 
 import (
 	"errors"
