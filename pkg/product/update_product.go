@@ -14,8 +14,8 @@ func updateProduct(id string, p *Product) (*Product, error) {
 		return nil, fmt.Errorf("Error trying to connect to database: %w", err)
 	}
 
-	var dbProduct Product
-	if err := db.First(&dbProduct, "id = ?", id).Error; err != nil {
+	dbProduct, err := getProductById(id)
+	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, fmt.Errorf("Product with id %s not founded", id)
 		}

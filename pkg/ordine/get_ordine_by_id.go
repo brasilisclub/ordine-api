@@ -14,7 +14,7 @@ func getOrdineById(id string) (Ordine, error) {
 		return ordine, errors.New(fmt.Sprintf("Error trying to connect to database %s", err.Error()))
 	}
 
-	result := db.First(&ordine, id)
+	result := db.First(&ordine, "id = ?", id)
 
 	if result.Error != nil {
 		return ordine, errors.New(fmt.Sprintf("Error getting ordine: %s", result.Error.Error()))

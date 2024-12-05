@@ -14,7 +14,7 @@ func getProductById(id string) (Product, error) {
 		return product, errors.New(fmt.Sprintf("Error trying to connect to database %s", err.Error()))
 	}
 
-	result := db.First(&product, id)
+	result := db.First(&product, "id = ?", id)
 	if result.Error != nil {
 		return product, errors.New(fmt.Sprintf("Error getting product: %s", result.Error.Error()))
 	}
