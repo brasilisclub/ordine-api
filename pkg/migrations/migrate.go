@@ -9,10 +9,8 @@ import (
 )
 
 func Migrate() {
-	db, err := database.GetConnector()
-	if err != nil {
-		logrus.Errorf("Error getting database connector %s", err.Error())
-	}
+	db := database.GetConnector()
+
 	db.AutoMigrate(&ordine.Ordine{}, &product.Product{})
 	logrus.Info("Migrations successfully executed!")
 }

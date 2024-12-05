@@ -1,7 +1,7 @@
 package database
 
 import (
-	"sync"
+	"os"
 
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
@@ -9,20 +9,19 @@ import (
 )
 
 var (
-	instance *gorm.DB
-	once     sync.Once
-	err      error
+	connection *gorm.DB
 )
 
-func GetConnector() (*gorm.DB, error) {
-	once.Do(func() {
-		dsn := "root:root@tcp(database:3306)/ordine?charset=utf8mb4&parseTime=True&loc=Local"
-		instance, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
-		if err != nil {
-			return
-		}
-		logrus.Info("Database connection successfully established!")
-	})
+func Connect() {
+	dsn := "root:root@tcp(database:3306)/ordine?charset=utf8mb4&parseTime=True&loc=Local"
+	c, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		logrus.Fatal("error connecting to database")
+		os.Exit(1)
+	}
+	connection = c
+}
 
-	return instance, err
+func GetConnector() *gorm.DB {
+	return connection
 }

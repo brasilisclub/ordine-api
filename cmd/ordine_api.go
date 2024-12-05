@@ -14,6 +14,7 @@ var ordineCmd = &cobra.Command{
 	Short: "A brief description of your application",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
+
 		r := gin.Default()
 		routes.ProductRoutes(r)
 		routes.OrdineRoutes(r)

@@ -9,10 +9,7 @@ import (
 func getOrdineById(id string) (Ordine, error) {
 	var ordine Ordine
 
-	db, err := database.GetConnector()
-	if err != nil {
-		return ordine, errors.New(fmt.Sprintf("Error trying to connect to database %s", err.Error()))
-	}
+	db := database.GetConnector()
 
 	result := db.First(&ordine, "id = ?", id)
 

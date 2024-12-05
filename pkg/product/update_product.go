@@ -9,10 +9,7 @@ import (
 )
 
 func updateProduct(id string, p *Product) (*Product, error) {
-	db, err := database.GetConnector()
-	if err != nil {
-		return nil, fmt.Errorf("Error trying to connect to database: %w", err)
-	}
+	db := database.GetConnector()
 
 	dbProduct, err := getProductById(id)
 	if err != nil {

@@ -7,10 +7,7 @@ import (
 )
 
 func removeOrdine(id string) error {
-	db, err := database.GetConnector()
-	if err != nil {
-		return errors.New(fmt.Sprintf("Error trying to connect to database %s", err.Error()))
-	}
+	db := database.GetConnector()
 
 	result := db.Delete(&Ordine{}, id)
 	if result.Error != nil {

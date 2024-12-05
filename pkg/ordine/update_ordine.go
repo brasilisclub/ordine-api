@@ -9,10 +9,7 @@ import (
 )
 
 func updateOrdine(id string, o *Ordine) (*Ordine, error) {
-	db, err := database.GetConnector()
-	if err != nil {
-		return nil, fmt.Errorf("Error trying to connect to database: %w", err)
-	}
+	db := database.GetConnector()
 
 	dbOrdine, err := getOrdineById(id)
 
