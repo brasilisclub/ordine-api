@@ -1,7 +1,7 @@
 services:
   api: &base
-    image: golang:1.23.3
-    working_dir: /app
+    image: golang:1.23.3 # get f=docker file e vizualizer
+    working_dir: /app # docker swarm
     command: go run main.go run
     volumes:
       - .:/app

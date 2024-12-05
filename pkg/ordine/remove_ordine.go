@@ -14,11 +14,11 @@ func removeOrdine(id string) error {
 
 	result := db.Delete(&Ordine{}, id)
 	if result.Error != nil {
-		return errors.New(fmt.Sprintf("Error deleting product: %s", result.Error))
+		return errors.New(fmt.Sprintf("Error deleting ordine: %s", result.Error))
 	}
 
 	if result.RowsAffected == 0 {
-		return errors.New("No product found with the provided ID")
+		return errors.New("No ordine found with the provided ID")
 	}
 	return nil
 }

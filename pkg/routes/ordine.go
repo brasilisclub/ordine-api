@@ -10,6 +10,6 @@ func OrdineRoutes(r *gin.Engine) {
 	r.GET("/ordine", ordine.GetOrdines)
 	r.GET("/ordine/:id")
 	r.POST("/ordine", ordine.PostOrdine)
-	r.PUT("/ordine/:id", updateOrdine)
+	r.PUT("/ordine/:id", ordine.PutOrdine)
 	r.DELETE("/ordine/:id", ordine.DeleteOrdine)
 }
