@@ -16,7 +16,7 @@ func getProductById(id string) (Product, error) {
 
 	result := db.First(&product, id)
 	if result.Error != nil {
-		return product, errors.New(fmt.Sprintf("Error deleting product: %s", result.Error.Error()))
+		return product, errors.New(fmt.Sprintf("Error getting product: %s", result.Error.Error()))
 	}
 
 	if result.RowsAffected == 0 {

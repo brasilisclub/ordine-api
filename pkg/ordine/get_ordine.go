@@ -1,4 +1,4 @@
-package product
+package ordine
 
 import (
 	"fmt"
@@ -7,9 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetProducts(ctx *gin.Context) {
-
-	products, err := getAllProducts()
+func GetOrdine(ctx *gin.Context) {
+	ordine, err := getOrdineById(ctx.Param("id"))
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"message": fmt.Sprintf("An unexpected error occurred while processing the request: %s", err.Error()),
@@ -17,5 +16,5 @@ func GetProducts(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, products)
+	ctx.JSON(http.StatusOK, ordine)
 }
