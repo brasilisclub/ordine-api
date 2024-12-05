@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func PostProductOnOrdine(ctx *gin.Context) {
+func PostProductsToOrdine(ctx *gin.Context) {
 	var body addProductsToOrdineBody
 
 	err := ctx.Bind(&body)
