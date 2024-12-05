@@ -8,7 +8,7 @@ func getAllOrdines() ([]Ordine, error) {
 	var ordines []Ordine
 	db := database.GetConnector()
 
-	result := db.Find(&ordines)
+	result := db.Preload("Products").Find(&ordines)
 
 	return ordines, result.Error
 }

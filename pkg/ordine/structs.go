@@ -13,3 +13,7 @@ type Ordine struct {
 	Status     bool              `json:"status"`
 	Products   []product.Product `json:"products" gorm:"many2many:ordine_products;"`
 }
+
+type addProductsToOrdineBody struct {
+	ProductsId []int `json:"products_id"`
+}

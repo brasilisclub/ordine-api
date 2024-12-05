@@ -8,7 +8,7 @@ import (
 )
 
 func GetProduct(ctx *gin.Context) {
-	product, err := getProductById(ctx.Param("id"))
+	product, err := GetProductById(ctx.Param("id"))
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"message": fmt.Sprintf("An unexpected error occurred while processing the request: %s", err.Error()),

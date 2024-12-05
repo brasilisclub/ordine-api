@@ -11,7 +11,7 @@ import (
 func updateProduct(id string, p *Product) (*Product, error) {
 	db := database.GetConnector()
 
-	dbProduct, err := getProductById(id)
+	dbProduct, err := GetProductById(id)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, fmt.Errorf("Product with id %s not founded", id)

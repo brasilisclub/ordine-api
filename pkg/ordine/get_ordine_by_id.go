@@ -11,7 +11,7 @@ func getOrdineById(id string) (Ordine, error) {
 
 	db := database.GetConnector()
 
-	result := db.First(&ordine, "id = ?", id)
+	result := db.Preload("Products").First(&ordine, "id = ?", id)
 
 	if result.Error != nil {
 		return ordine, errors.New(fmt.Sprintf("Error getting ordine: %s", result.Error.Error()))
