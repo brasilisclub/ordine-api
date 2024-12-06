@@ -9,22 +9,43 @@ import (
 	"gorm.io/gorm"
 )
 
-func addProductToOrdine(ordine *Ordine, productId string) error {
+func addProductToOrdine(ordId uint, prodId string, quant int) error {
+	if quant <= 0 {
+		return fmt.Errorf("Quantity <= 0")
+	}
 
-	dbProduct, err := product.GetProductById(productId)
+	dbProduct, err := product.GetProductById(prodId)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return fmt.Errorf("Product with id %s not founded", productId)
+			return fmt.Errorf("Product with ID %s not founded", prodId)
 		}
-		return fmt.Errorf("Error getting product on db: %w", err)
+		return fmt.Errorf("Error getting product on database: %w", err)
 	}
 
 	db := database.GetConnector()
 
-	if err := db.Model(ordine).Association("Products").Append(&dbProduct); err != nil {
-		return fmt.Errorf("Error trying to add product to ordine: %w", err)
+	var dbOrderProduct OrderProducts
+	err = db.Where("ordine_id = ? AND product_id = ?", ordId, dbProduct.ID).First(&dbOrderProduct).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		newOrderProduct := OrderProducts{
+			OrdineID:  ordId,
+			ProductID: dbProduct.ID,
+			Quantity:  quant,
+		}
+		if err := db.Create(&newOrderProduct).Error; err != nil {
+			return fmt.Errorf("Error trying to create order: %w", err)
+		}
+	} else if err != nil {
+
+		return fmt.Errorf("Error getting order %w", err)
+	} else {
+
+		dbOrderProduct.Quantity += quant
+		if err := db.Save(&dbOrderProduct).Error; err != nil {
+			return fmt.Errorf("Error trying to update order %w", err)
+		}
 	}
 
 	return nil
-
 }

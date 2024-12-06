@@ -17,7 +17,7 @@ func PostOrdine(ctx *gin.Context) {
 		})
 		return
 	}
-	err = createOrdine(&ordine)
+	err = CreateOrdine(&ordine)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": fmt.Sprintf("Error trying to create ordine: %s", err.Error()),

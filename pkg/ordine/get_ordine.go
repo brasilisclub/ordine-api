@@ -8,7 +8,7 @@ import (
 )
 
 func GetOrdine(ctx *gin.Context) {
-	ordine, err := getOrdineById(ctx.Param("id"))
+	ordine, err := GetOrdineById(ctx.Param("id"))
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"message": fmt.Sprintf("An unexpected error occurred while processing the request: %s", err.Error()),

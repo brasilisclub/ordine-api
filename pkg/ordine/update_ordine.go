@@ -11,7 +11,7 @@ import (
 func updateOrdine(id string, o *Ordine) (*Ordine, error) {
 	db := database.GetConnector()
 
-	dbOrdine, err := getOrdineById(id)
+	dbOrdine, err := GetOrdineById(id)
 
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {

@@ -8,7 +8,7 @@ import (
 )
 
 func PostProductsToOrdine(ctx *gin.Context) {
-	var body addProductsToOrdineBody
+	var body []OrderProductBody
 
 	err := ctx.Bind(&body)
 
@@ -19,7 +19,7 @@ func PostProductsToOrdine(ctx *gin.Context) {
 		return
 	}
 
-	updatedOrdine, err := addProductsToOrdine(ctx.Param("id"), body.ProductsId)
+	updatedOrdine, err := addProductsToOrdine(ctx.Param("id"), body)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{

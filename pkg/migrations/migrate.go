@@ -11,6 +11,6 @@ import (
 func Migrate() {
 	db := database.GetConnector()
 
-	db.AutoMigrate(&ordine.Ordine{}, &product.Product{})
+	db.AutoMigrate(&ordine.Ordine{}, &product.Product{}, ordine.OrderProducts{})
 	logrus.Info("Migrations successfully executed!")
 }

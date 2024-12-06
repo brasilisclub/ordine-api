@@ -8,9 +8,9 @@ import (
 	"gorm.io/gorm"
 )
 
-func addProductsToOrdine(ordineId string, ids []int) (*Ordine, error) {
+func addProductsToOrdine(ordineId string, items []OrderProductBody) (*Ordine, error) {
 
-	dbOrdine, err := getOrdineById(ordineId)
+	dbOrdine, err := GetOrdineById(ordineId)
 
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -20,10 +20,10 @@ func addProductsToOrdine(ordineId string, ids []int) (*Ordine, error) {
 
 	}
 
-	for _, id := range ids {
+	for _, item := range items {
 
-		productId := strconv.Itoa(id)
-		err := addProductToOrdine(&dbOrdine, productId)
+		productId := strconv.FormatUint(uint64(item.ProductID), 10)
+		err := addProductToOrdine(dbOrdine.ID, productId, item.Quantity)
 
 		if err != nil {
 			return nil, err

@@ -6,12 +6,12 @@ import (
 	"ordine-api/pkg/database"
 )
 
-func getOrdineById(id string) (Ordine, error) {
+func GetOrdineById(id string) (Ordine, error) {
 	var ordine Ordine
 
 	db := database.GetConnector()
 
-	result := db.Preload("Products").First(&ordine, "id = ?", id)
+	result := db.Preload("Products.Product").First(&ordine, "id = ?", id)
 
 	if result.Error != nil {
 		return ordine, errors.New(fmt.Sprintf("Error getting ordine: %s", result.Error.Error()))
