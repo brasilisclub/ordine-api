@@ -18,6 +18,7 @@ var ordineCmd = &cobra.Command{
 		r := gin.Default()
 		routes.ProductRoutes(r)
 		routes.OrdineRoutes(r)
+		routes.AuthRoutes(r)
 
 		r.Run()
 	},
