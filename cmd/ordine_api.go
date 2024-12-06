@@ -16,9 +16,7 @@ var ordineCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 
 		r := gin.Default()
-		routes.ProductRoutes(r)
-		routes.OrdineRoutes(r)
-		routes.AuthRoutes(r)
+		routes.Load(r)
 
 		r.Run()
 	},
