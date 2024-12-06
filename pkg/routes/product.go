@@ -1,15 +1,15 @@
 package routes
 
 import (
-	"ordine-api/pkg/product"
+	"ordine-api/pkg/product/controllers"
 
 	"github.com/gin-gonic/gin"
 )
 
 func ProductRoutes(r *gin.Engine) {
-	r.GET("/product", product.GetProducts)
-	r.GET("/product/:id", product.GetProduct)
-	r.POST("/product", product.PostProduct)
-	r.PUT("/product/:id", product.PutProduct)
-	r.DELETE("/product/:id", product.DeleteProduct)
+	r.GET("/product", controllers.GetProducts)
+	r.GET("/product/:id", controllers.GetProduct)
+	r.POST("/product", controllers.PostProduct)
+	r.PUT("/product/:id", controllers.PutProduct)
+	r.DELETE("/product/:id", controllers.DeleteProduct)
 }

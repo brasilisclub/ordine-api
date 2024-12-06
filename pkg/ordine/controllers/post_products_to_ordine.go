@@ -1,14 +1,16 @@
-package ordine
+package controllers
 
 import (
 	"fmt"
 	"net/http"
+	ord "ordine-api/pkg/ordine"
+	order "ordine-api/pkg/ordine/order"
 
 	"github.com/gin-gonic/gin"
 )
 
 func PostProductsToOrdine(ctx *gin.Context) {
-	var body []OrderProductBody
+	var body []ord.OrderProductBody
 
 	err := ctx.Bind(&body)
 
@@ -19,7 +21,7 @@ func PostProductsToOrdine(ctx *gin.Context) {
 		return
 	}
 
-	updatedOrdine, err := addProductsToOrdine(ctx.Param("id"), body)
+	updatedOrdine, err := order.AddProductsToOrdine(ctx.Param("id"), body)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{

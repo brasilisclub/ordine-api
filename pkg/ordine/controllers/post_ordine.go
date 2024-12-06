@@ -1,14 +1,15 @@
-package ordine
+package controllers
 
 import (
 	"fmt"
 	"net/http"
+	ord "ordine-api/pkg/ordine"
 
 	"github.com/gin-gonic/gin"
 )
 
 func PostOrdine(ctx *gin.Context) {
-	var ordine Ordine
+	var ordine ord.Ordine
 
 	err := ctx.Bind(&ordine)
 	if err != nil {
@@ -17,7 +18,7 @@ func PostOrdine(ctx *gin.Context) {
 		})
 		return
 	}
-	err = CreateOrdine(&ordine)
+	err = ord.CreateOrdine(&ordine)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": fmt.Sprintf("Error trying to create ordine: %s", err.Error()),

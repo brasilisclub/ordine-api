@@ -1,17 +1,19 @@
-package ordine
+package controllers
 
 import (
 	"fmt"
 	"net/http"
+	prod "ordine-api/pkg/product"
 
 	"github.com/gin-gonic/gin"
 )
 
-func DeleteOrdine(ctx *gin.Context) {
-	err := removeOrdine(ctx.Param("id"))
+func DeleteProduct(ctx *gin.Context) {
+
+	err := prod.RemoveProduct(ctx.Param("id"))
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"message": fmt.Sprintf("Error trying to delete ordine: %s", err.Error()),
+			"message": fmt.Sprintf("Error trying to delete product: %s", err.Error()),
 		})
 		return
 	}

@@ -4,7 +4,7 @@ import (
 	"ordine-api/pkg/database"
 )
 
-func getAllProducts() ([]Product, error) {
+func GetAllProducts() ([]Product, error) {
 	var products []Product
 	db := database.GetConnector()
 

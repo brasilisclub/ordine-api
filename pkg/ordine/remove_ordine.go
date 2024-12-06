@@ -6,7 +6,7 @@ import (
 	"ordine-api/pkg/database"
 )
 
-func removeOrdine(id string) error {
+func RemoveOrdine(id string) error {
 	db := database.GetConnector()
 
 	result := db.Delete(&Ordine{}, id)

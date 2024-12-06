@@ -1,16 +1,16 @@
 package routes
 
 import (
-	"ordine-api/pkg/ordine"
+	"ordine-api/pkg/ordine/controllers"
 
 	"github.com/gin-gonic/gin"
 )
 
 func OrdineRoutes(r *gin.Engine) {
-	r.GET("/ordine", ordine.GetOrdines)
-	r.GET("/ordine/:id", ordine.GetOrdine)
-	r.POST("/ordine", ordine.PostOrdine)
-	r.POST("/ordine/product/:id", ordine.PostProductsToOrdine)
-	r.PUT("/ordine/:id", ordine.PutOrdine)
-	r.DELETE("/ordine/:id", ordine.DeleteOrdine)
+	r.GET("/ordine", controllers.GetOrdines)
+	r.GET("/ordine/:id", controllers.GetOrdine)
+	r.POST("/ordine", controllers.PostOrdine)
+	r.POST("/ordine/product/:id", controllers.PostProductsToOrdine)
+	r.PUT("/ordine/:id", controllers.PutOrdine)
+	r.DELETE("/ordine/:id", controllers.DeleteOrdine)
 }

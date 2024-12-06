@@ -1,16 +1,17 @@
-package ordine
+package order
 
 import (
 	"errors"
 	"fmt"
+	ord "ordine-api/pkg/ordine"
 	"strconv"
 
 	"gorm.io/gorm"
 )
 
-func addProductsToOrdine(ordineId string, items []OrderProductBody) (*Ordine, error) {
+func AddProductsToOrdine(ordineId string, items []ord.OrderProductBody) (*ord.Ordine, error) {
 
-	dbOrdine, err := GetOrdineById(ordineId)
+	dbOrdine, err := ord.GetOrdineById(ordineId)
 
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {

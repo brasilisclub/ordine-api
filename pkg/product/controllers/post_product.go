@@ -1,14 +1,15 @@
-package product
+package controllers
 
 import (
 	"fmt"
 	"net/http"
+	prod "ordine-api/pkg/product"
 
 	"github.com/gin-gonic/gin"
 )
 
 func PostProduct(ctx *gin.Context) {
-	var product Product
+	var product prod.Product
 	err := ctx.Bind(&product)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -17,7 +18,7 @@ func PostProduct(ctx *gin.Context) {
 		return
 	}
 
-	err = createProduct(&product)
+	err = prod.CreateProduct(&product)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"message": fmt.Sprintf("Internal Server error: %s", err.Error()),

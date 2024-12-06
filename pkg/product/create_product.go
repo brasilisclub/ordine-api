@@ -6,7 +6,7 @@ import (
 	"ordine-api/pkg/database"
 )
 
-func createProduct(p *Product) error {
+func CreateProduct(p *Product) error {
 	db := database.GetConnector()
 
 	result := db.Create(p)

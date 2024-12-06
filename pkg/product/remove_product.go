@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-func removeProduct(id string) error {
+func RemoveProduct(id string) error {
 	productId, err := strconv.Atoi(id)
 	if err != nil {
 		return errors.New(fmt.Sprintf("Invalid param: %s", err.Error()))

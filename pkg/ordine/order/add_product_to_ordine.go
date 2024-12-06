@@ -1,9 +1,10 @@
-package ordine
+package order
 
 import (
 	"errors"
 	"fmt"
 	"ordine-api/pkg/database"
+	ord "ordine-api/pkg/ordine"
 	"ordine-api/pkg/product"
 
 	"gorm.io/gorm"
@@ -24,11 +25,11 @@ func addProductToOrdine(ordId uint, prodId string, quant int) error {
 
 	db := database.GetConnector()
 
-	var dbOrderProduct OrderProducts
+	var dbOrderProduct ord.OrderProducts
 	err = db.Where("ordine_id = ? AND product_id = ?", ordId, dbProduct.ID).First(&dbOrderProduct).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		newOrderProduct := OrderProducts{
+		newOrderProduct := ord.OrderProducts{
 			OrdineID:  ordId,
 			ProductID: dbProduct.ID,
 			Quantity:  quant,
