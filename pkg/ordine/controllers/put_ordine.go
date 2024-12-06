@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	ord "ordine-api/pkg/ordine"
+	"ordine-api/pkg/ordine/services"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,7 +18,7 @@ func PutOrdine(ctx *gin.Context) {
 		})
 		return
 	}
-	updatedOrdine, err := ord.UpdateOrdine(ctx.Param("id"), &ordine)
+	updatedOrdine, err := services.UpdateOrdine(ctx.Param("id"), &ordine)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": fmt.Sprintf("Error trying update ordine: %s", err.Error()),

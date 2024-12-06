@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	ord "ordine-api/pkg/ordine"
+	"ordine-api/pkg/ordine/services"
 	"strconv"
 
 	"gorm.io/gorm"
@@ -11,13 +12,13 @@ import (
 
 func AddProductsToOrdine(ordineId string, items []ord.OrderProductBody) (*ord.Ordine, error) {
 
-	dbOrdine, err := ord.GetOrdineById(ordineId)
+	dbOrdine, err := services.GetOrdineById(ordineId)
 
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, fmt.Errorf("Ordine with id %s not founded", ordineId)
+			return nil, fmt.Errorf("ordine with id %s not founded", ordineId)
 		}
-		return nil, fmt.Errorf("Error getting ordine on db: %w", err)
+		return nil, fmt.Errorf("error getting ordine on db: %w", err)
 
 	}
 
@@ -31,6 +32,8 @@ func AddProductsToOrdine(ordineId string, items []ord.OrderProductBody) (*ord.Or
 		}
 	}
 
-	return &dbOrdine, nil
+	newOrdine, _ := services.GetOrdineById(strconv.FormatUint(uint64(dbOrdine.ID), 10))
+
+	return &newOrdine, nil
 
 }

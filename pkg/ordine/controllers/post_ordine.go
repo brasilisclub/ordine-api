@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	ord "ordine-api/pkg/ordine"
+	"ordine-api/pkg/ordine/services"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,7 +19,7 @@ func PostOrdine(ctx *gin.Context) {
 		})
 		return
 	}
-	err = ord.CreateOrdine(&ordine)
+	err = services.CreateOrdine(&ordine)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": fmt.Sprintf("Error trying to create ordine: %s", err.Error()),

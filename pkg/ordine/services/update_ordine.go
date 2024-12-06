@@ -1,23 +1,24 @@
-package ordine
+package services
 
 import (
 	"errors"
 	"fmt"
 	"ordine-api/pkg/database"
+	ord "ordine-api/pkg/ordine"
 
 	"gorm.io/gorm"
 )
 
-func UpdateOrdine(id string, o *Ordine) (*Ordine, error) {
+func UpdateOrdine(id string, o *ord.Ordine) (*ord.Ordine, error) {
 	db := database.GetConnector()
 
 	dbOrdine, err := GetOrdineById(id)
 
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, fmt.Errorf("Ordine with id %s not founded", id)
+			return nil, fmt.Errorf("ordine with id %s not founded", id)
 		}
-		return nil, fmt.Errorf("Error getting ordine on db: %w", err)
+		return nil, fmt.Errorf("error getting ordine on db: %w", err)
 
 	}
 
@@ -26,7 +27,7 @@ func UpdateOrdine(id string, o *Ordine) (*Ordine, error) {
 	dbOrdine.Status = o.Status
 
 	if err := db.Save(&dbOrdine).Error; err != nil {
-		return nil, fmt.Errorf("Error trying update product: %w", err)
+		return nil, fmt.Errorf("error trying update product: %w", err)
 	}
 
 	return &dbOrdine, nil

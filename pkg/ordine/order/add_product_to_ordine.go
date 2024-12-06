@@ -12,15 +12,15 @@ import (
 
 func addProductToOrdine(ordId uint, prodId string, quant int) error {
 	if quant <= 0 {
-		return fmt.Errorf("Quantity <= 0")
+		return fmt.Errorf("quantity <= 0")
 	}
 
 	dbProduct, err := product.GetProductById(prodId)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return fmt.Errorf("Product with ID %s not founded", prodId)
+			return fmt.Errorf("product with ID %s not founded", prodId)
 		}
-		return fmt.Errorf("Error getting product on database: %w", err)
+		return fmt.Errorf("error getting product on database: %w", err)
 	}
 
 	db := database.GetConnector()
@@ -35,16 +35,16 @@ func addProductToOrdine(ordId uint, prodId string, quant int) error {
 			Quantity:  quant,
 		}
 		if err := db.Create(&newOrderProduct).Error; err != nil {
-			return fmt.Errorf("Error trying to create order: %w", err)
+			return fmt.Errorf("error trying to create order: %w", err)
 		}
 	} else if err != nil {
 
-		return fmt.Errorf("Error getting order %w", err)
+		return fmt.Errorf("error getting order %w", err)
 	} else {
 
 		dbOrderProduct.Quantity += quant
 		if err := db.Save(&dbOrderProduct).Error; err != nil {
-			return fmt.Errorf("Error trying to update order %w", err)
+			return fmt.Errorf("error trying to update order %w", err)
 		}
 	}
 
