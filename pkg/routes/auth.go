@@ -8,4 +8,5 @@ import (
 
 func AuthRoutes(r *gin.Engine) {
 	r.POST("/auth/register", controllers.PostRegister)
+	r.POST("/auth/login", controllers.PostLogin)
 }
