@@ -9,3 +9,7 @@ type User struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
+
+func (u *User) GetName() string {
+	return u.Username
+}

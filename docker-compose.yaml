@@ -1,7 +1,10 @@
 services:
   api: &base
-    image: golang:1.23.3 # get f=docker file e vizualizer
-    working_dir: /app # docker swarm
+
+    build:
+      context: .
+      dockerfile: build/go/Dockerfile # docker swarm e vizualizer
+    
     command: go run main.go run
     volumes:
       - .:/app
@@ -17,7 +20,9 @@ services:
   #Tests <<:base
 
   database:
-    image: mysql:9.1.0
+    build:
+      context: .
+      dockerfile: build/mysql/Dockerfile
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: bob_live
@@ -29,7 +34,7 @@ services:
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-uroot", "-proot"]
       interval: 10s
-      retries: 3000
+      retries: 30
       start_period: 60s
       timeout: 5s
     ports:
