@@ -49,13 +49,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/auth.AuthFailResponse"
+                            "$ref": "#/definitions/utils.GenericResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/auth.AuthFailResponse"
+                            "$ref": "#/definitions/utils.GenericResponse"
                         }
                     }
                 }
@@ -95,13 +95,51 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/auth.AuthFailResponse"
+                            "$ref": "#/definitions/utils.GenericResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/auth.AuthFailResponse"
+                            "$ref": "#/definitions/utils.GenericResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ordines/{id}": {
+            "delete": {
+                "description": "Delete a ordine by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Ordine"
+                ],
+                "summary": "Delete ordine",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Ordine id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.GenericResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.GenericResponse"
                         }
                     }
                 }
@@ -109,14 +147,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "auth.AuthFailResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
         "auth.LoginRequestBody": {
             "type": "object",
             "required": [
@@ -159,6 +189,14 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "utils.GenericResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
                     "type": "string"
                 }
             }

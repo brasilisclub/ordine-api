@@ -18,7 +18,3 @@ type LoginRequestBody struct {
 type LoginUserSuccessResponse struct {
 	Token string `json:"token"`
 }
-
-type AuthFailResponse struct {
-	Message string `json:"message" bson:"message"`
-}

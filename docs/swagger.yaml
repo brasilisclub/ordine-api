@@ -1,9 +1,4 @@
 definitions:
-  auth.AuthFailResponse:
-    properties:
-      message:
-        type: string
-    type: object
   auth.LoginRequestBody:
     properties:
       password:
@@ -34,6 +29,11 @@ definitions:
       username:
         type: string
     type: object
+  utils.GenericResponse:
+    properties:
+      message:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
@@ -59,11 +59,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/auth.AuthFailResponse'
+            $ref: '#/definitions/utils.GenericResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/auth.AuthFailResponse'
+            $ref: '#/definitions/utils.GenericResponse'
       summary: Login
       tags:
       - Auth
@@ -89,12 +89,37 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/auth.AuthFailResponse'
+            $ref: '#/definitions/utils.GenericResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/auth.AuthFailResponse'
+            $ref: '#/definitions/utils.GenericResponse'
       summary: Register
       tags:
       - Auth
+  /ordines/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a ordine by id
+      parameters:
+      - description: Ordine id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Delete ordine
+      tags:
+      - Ordine
 swagger: "2.0"
