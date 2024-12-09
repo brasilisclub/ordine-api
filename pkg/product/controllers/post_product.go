@@ -10,7 +10,7 @@ import (
 
 func PostProduct(ctx *gin.Context) {
 	var product prod.Product
-	err := ctx.Bind(&product)
+	err := ctx.ShouldBindBodyWithJSON(&product)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": fmt.Sprintf("Invalid body: %s", err.Error()),

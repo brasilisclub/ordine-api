@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func UpdateOrdine(id string, o *ord.Ordine) (*ord.Ordine, error) {
+func UpdateOrdine(id string, o *ord.OrdineRequestBody) (*ord.Ordine, error) {
 	db := database.GetConnector()
 
 	dbOrdine, err := GetOrdineById(id)

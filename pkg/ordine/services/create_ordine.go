@@ -6,13 +6,19 @@ import (
 	ord "ordine-api/pkg/ordine"
 )
 
-func CreateOrdine(o *ord.Ordine) error {
+func CreateOrdine(o *ord.OrdineRequestBody) (*ord.Ordine, error) {
 	db := database.GetConnector()
 
-	result := db.Create(o)
+	var dbOrdine ord.Ordine
+
+	dbOrdine.Table = o.Table
+	dbOrdine.ClientName = o.ClientName
+	dbOrdine.Status = o.Status
+
+	result := db.Create(dbOrdine)
 	if result.Error != nil {
-		return fmt.Errorf("error trying to insert ordine on database %s", result.Error.Error())
+		return &ord.Ordine{}, fmt.Errorf("error trying to insert ordine on database %s", result.Error.Error())
 	}
 
-	return nil
+	return &dbOrdine, nil
 }

@@ -16,13 +16,13 @@ import (
 //	@Tags			Auth
 //	@Accept			json
 //	@Produce		json
-//	@Param			user	body		auth.LoginRequestBody	true	"User data"
+//	@Param			user	body		auth.AuthRequestBody	true	"User data"
 //	@Success		201		{object}	auth.User
 //	@Failure		400		{object}	utils.GenericResponse
 //	@Failure		500		{object}	utils.GenericResponse
 //	@Router			/auth/register [post]
 func PostRegister(ctx *gin.Context) {
-	var bodyUser auth.LoginRequestBody
+	var bodyUser auth.AuthRequestBody
 
 	err := ctx.ShouldBindBodyWithJSON(&bodyUser)
 	if err != nil {

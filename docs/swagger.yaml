@@ -1,5 +1,5 @@
 definitions:
-  auth.LoginRequestBody:
+  auth.AuthRequestBody:
     properties:
       password:
         type: string
@@ -29,6 +29,83 @@ definitions:
       username:
         type: string
     type: object
+  ordine.OrderProductBody:
+    properties:
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+    type: object
+  ordine.OrderProducts:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: integer
+      ordine_id:
+        type: integer
+      product:
+        $ref: '#/definitions/product.Product'
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  ordine.Ordine:
+    properties:
+      client_name:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: integer
+      ordine_products:
+        items:
+          $ref: '#/definitions/ordine.OrderProducts'
+        type: array
+      status:
+        type: boolean
+      table:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  ordine.OrdineRequestBody:
+    properties:
+      client_name:
+        type: string
+      status:
+        type: boolean
+      table:
+        type: integer
+    type: object
+  product.Product:
+    properties:
+      category:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+      stock:
+        type: integer
+      updated_at:
+        type: string
+    type: object
   utils.GenericResponse:
     properties:
       message:
@@ -48,7 +125,7 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/auth.LoginRequestBody'
+          $ref: '#/definitions/auth.AuthRequestBody'
       produces:
       - application/json
       responses:
@@ -78,7 +155,7 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/auth.LoginRequestBody'
+          $ref: '#/definitions/auth.AuthRequestBody'
       produces:
       - application/json
       responses:
@@ -97,11 +174,92 @@ paths:
       summary: Register
       tags:
       - Auth
+  /ordine/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update an existing ordine by its ID
+      parameters:
+      - description: Ordine ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Ordine data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/ordine.OrdineRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Updated ordine"  // Retorna o ordine atualizado
+          schema:
+            $ref: '#/definitions/ordine.Ordine'
+        "400":
+          description: Invalid input or error updating ordine
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Update an ordine
+      tags:
+      - Ordine
+  /ordines:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of all ordines
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of ordines
+          schema:
+            items:
+              $ref: '#/definitions/ordine.Ordine'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Get all ordines
+      tags:
+      - Ordine
+    post:
+      consumes:
+      - application/json
+      description: Create a new ordine with the provided data
+      parameters:
+      - description: Ordine data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/ordine.OrdineRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Created ordine
+          schema:
+            $ref: '#/definitions/ordine.Ordine'
+        "400":
+          description: Invalid input or error creating ordine
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Create a new ordine
+      tags:
+      - Ordine
   /ordines/{id}:
     delete:
       consumes:
       - application/json
-      description: Delete a ordine by id
+      description: Delete an ordine based on the given ID
       parameters:
       - description: Ordine id
         in: path
@@ -112,14 +270,79 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Resource deleted successfully
           schema:
             $ref: '#/definitions/utils.GenericResponse'
         "400":
-          description: Bad Request
+          description: Error trying to delete ordine
           schema:
             $ref: '#/definitions/utils.GenericResponse'
       summary: Delete ordine
+      tags:
+      - Ordine
+    get:
+      consumes:
+      - application/json
+      description: Retrieve an ordine by its unique ID
+      parameters:
+      - description: Ordine ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ordine data
+          schema:
+            $ref: '#/definitions/ordine.Ordine'
+        "400":
+          description: Invalid ID format
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Get ordine by ID
+      tags:
+      - Ordine
+  /ordines/{id}/products:
+    post:
+      consumes:
+      - application/json
+      description: Add products to an existing ordine by its ID
+      parameters:
+      - description: Ordine ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Products to add to the ordine
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/ordine.OrderProductBody'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Updated ordine
+          schema:
+            $ref: '#/definitions/ordine.Ordine'
+        "400":
+          description: Invalid input or error updating ordine
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Add products to an ordine
       tags:
       - Ordine
 swagger: "2.0"

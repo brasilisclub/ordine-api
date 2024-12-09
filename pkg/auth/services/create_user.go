@@ -6,7 +6,7 @@ import (
 	"ordine-api/pkg/database"
 )
 
-func CreateUser(user *auth.LoginRequestBody) error {
+func CreateUser(user *auth.AuthRequestBody) error {
 	var dbUser auth.User
 
 	if UserExists(user.Username) {

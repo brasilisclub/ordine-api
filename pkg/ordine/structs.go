@@ -5,6 +5,11 @@ import (
 	"time"
 )
 
+type OrdineRequestBody struct {
+	Table      int    `json:"table" bson:"tables"`
+	ClientName string `json:"client_name" bson:"client_name"`
+	Status     bool   `json:"status" bson:"status"`
+}
 type Ordine struct {
 	ID         uint            `json:"id" bson:"id"`
 	CreatedAt  time.Time       `json:"created_at" bson:"created_at"`

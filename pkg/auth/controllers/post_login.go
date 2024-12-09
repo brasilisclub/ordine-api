@@ -17,15 +17,15 @@ import (
 //	@Tags			Auth
 //	@Accept			json
 //	@Produce		json
-//	@Param			user	body		auth.LoginRequestBody	true	"User data"
+//	@Param			user	body		auth.AuthRequestBody	true	"User data"
 //	@Success		200		{object}	auth.LoginUserSuccessResponse
 //	@Failure		400		{object}	utils.GenericResponse
 //	@Failure		500		{object}	utils.GenericResponse
 //	@Router			/auth/login [post]
 func PostLogin(ctx *gin.Context) {
-	var requestBody auth.LoginRequestBody
+	var requestBody auth.AuthRequestBody
 
-	if err := ctx.ShouldBindJSON(&requestBody); err != nil {
+	if err := ctx.ShouldBindBodyWithJSON(&requestBody); err != nil {
 		ctx.JSON(http.StatusBadRequest, utils.GenericResponse{Message: fmt.Sprintf("Invalid input: %s", err.Error())})
 		return
 	}

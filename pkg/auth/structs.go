@@ -11,7 +11,7 @@ type User struct {
 	Password  string     `json:"password" bson:"password"`
 }
 
-type LoginRequestBody struct {
+type AuthRequestBody struct {
 	Username string `json:"username" bson:"username" binding:"required"`
 	Password string `json:"password" bson:"password" binding:"required"`
 }
