@@ -39,7 +39,8 @@ var ordineCmd = &cobra.Command{
 
 		r := gin.Default()
 		routes.Load(r)
-		docs.SwaggerInfo.BasePath = "/api/v1"
+		//docs.SwaggerInfo.BasePath = "/api/v1"
+		docs.SwaggerInfo.BasePath = "/"
 		r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 		r.Run()
 	},

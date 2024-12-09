@@ -22,7 +22,7 @@ import (
 // @Success		200		{object}	ordine.Ordine "Updated ordine"  // Retorna o ordine atualizado
 // @Failure		400		{object}	utils.GenericResponse "Invalid input or error updating ordine"
 // @Failure		500		{object}	utils.GenericResponse "Internal server error"
-// @Router			/ordine/{id} [put]
+// @Router			/ordines/{id} [put]
 func PutOrdine(ctx *gin.Context) {
 	var ordine ord.OrdineRequestBody
 	err := ctx.ShouldBindBodyWithJSON(&ordine)

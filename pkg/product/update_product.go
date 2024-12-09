@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func UpdateProduct(id string, p *Product) (*Product, error) {
+func UpdateProduct(id string, p *ProductRequestBody) (*Product, error) {
 	db := database.GetConnector()
 
 	dbProduct, err := GetProductById(id)

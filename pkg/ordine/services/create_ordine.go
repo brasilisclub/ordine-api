@@ -15,7 +15,7 @@ func CreateOrdine(o *ord.OrdineRequestBody) (*ord.Ordine, error) {
 	dbOrdine.ClientName = o.ClientName
 	dbOrdine.Status = o.Status
 
-	result := db.Create(dbOrdine)
+	result := db.Create(&dbOrdine)
 	if result.Error != nil {
 		return &ord.Ordine{}, fmt.Errorf("error trying to insert ordine on database %s", result.Error.Error())
 	}
