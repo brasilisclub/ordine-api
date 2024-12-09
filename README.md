@@ -2,6 +2,9 @@
 
 This is an application designed for managing orders (ordines) in restaurants. It is developed in Go, using the Gin and GORM libraries to build an efficient and scalable API.
 
+## Swagger
+http://localhost:8080/swagger/index.html
+
 ## Technologies Used
 
 - **Go**: The main language used for the backend.

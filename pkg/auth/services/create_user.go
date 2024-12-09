@@ -6,7 +6,9 @@ import (
 	"ordine-api/pkg/database"
 )
 
-func CreateUser(user *auth.User) error {
+func CreateUser(user *auth.LoginRequestBody) error {
+	var dbUser auth.User
+
 	if UserExists(user.Username) {
 		return errors.New("User with user name %s alredy exists")
 	}
@@ -14,11 +16,12 @@ func CreateUser(user *auth.User) error {
 	var err error
 
 	db := database.GetConnector()
-	user.Password, err = HashPassword(user.Password)
+	dbUser.Username = user.Username
+	dbUser.Password, err = HashPassword(user.Password)
 	if err != nil {
 		return err
 	}
-	db.Save(user)
+	db.Save(dbUser)
 
 	return nil
 

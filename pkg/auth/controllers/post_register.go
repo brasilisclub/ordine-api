@@ -9,8 +9,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// PostLogin godoc
+//
+//	@Summary		Register
+//	@Description	Register for a User
+//	@Tags			Auth
+//	@Accept			json
+//	@Produce		json
+//	@Param			user	body		auth.LoginRequestBody	true	"User data"
+//	@Success		201		{object}	auth.User
+//	@Failure		400		{object}	auth.AuthFailResponse
+//	@Failure		500		{object}	auth.AuthFailResponse
+//	@Router			/auth/register [post]
 func PostRegister(ctx *gin.Context) {
-	var bodyUser auth.User
+	var bodyUser auth.LoginRequestBody
 
 	err := ctx.ShouldBindBodyWithJSON(&bodyUser)
 	if err != nil {

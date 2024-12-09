@@ -9,22 +9,38 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// PostLogin godoc
+//
+//	@Summary		Login
+//	@Description	Login for a User
+//	@Tags			Auth
+//	@Accept			json
+//	@Produce		json
+//	@Param			user	body		auth.LoginRequestBody	true	"User data"
+//	@Success		200		{object}	auth.LoginUserSuccessResponse
+//	@Failure		400		{object}	auth.AuthFailResponse
+//	@Failure		500		{object}	auth.AuthFailResponse
+//	@Router			/auth/login [post]
 func PostLogin(ctx *gin.Context) {
-	var user auth.User
-	if err := ctx.ShouldBindJSON(&user); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+	var requestBody auth.LoginRequestBody
+
+	if err := ctx.ShouldBindJSON(&requestBody); err != nil {
+		ctx.JSON(http.StatusBadRequest, auth.AuthFailResponse{Message: fmt.Sprintf("Invalid input: %s", err.Error())})
 		return
 	}
 
-	token, err := services.Login(&user)
+	token, err := services.Login(&auth.User{
+		Username: requestBody.Username,
+		Password: requestBody.Password,
+	})
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"message": fmt.Sprintf("Error trying generate token: %s", err.Error()),
+		ctx.JSON(http.StatusInternalServerError, auth.AuthFailResponse{
+			Message: fmt.Sprintf("Error trying to generate token: %s", err.Error()),
 		})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"token": token,
+	ctx.JSON(http.StatusOK, auth.LoginUserSuccessResponse{
+		Token: token,
 	})
 }
