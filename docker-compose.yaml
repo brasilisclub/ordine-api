@@ -1,8 +1,6 @@
 services:
   api:
-    build:
-      context: .
-      dockerfile: build/go/Dockerfile
+    image: matheushpr9/ordine-api-app:v1.0.1
     command: go run main.go run
     volumes:
       - .:/app
@@ -17,9 +15,7 @@ services:
 
 
   database:
-    build:
-      context: .
-      dockerfile: build/mysql/Dockerfile
+    image: matheushpr9/ordine-api-database:v1.0.1
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: bob_live

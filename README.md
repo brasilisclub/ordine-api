@@ -48,6 +48,30 @@ Note: Removing the database will require you to run the migrations again.
 ## Swagger
 http://localhost:8080/swagger/index.html
 
+## Docker
+
+how to build the images used in this project and publish them on dockerhub?
+
+### golang
+build:
+```bash
+docker build -t matheushpr9/ordine-api-app:vx.x.x -f build\go\Dockerfile .
+```
+push:
+```bash
+docker push matheushpr9/ordine-api-app:v1.0.1
+```
+
+### mysql
+build:
+```bash
+docker build -t matheushpr9/ordine-api-database:v1.0.1 -f build\mysql\Dockerfile .
+```
+push:
+```bash
+docker push matheushpr9/ordine-api-database:v1.0.1
+```
+
 ## Contributing
 If you would like to contribute to the project, follow these steps:
 
