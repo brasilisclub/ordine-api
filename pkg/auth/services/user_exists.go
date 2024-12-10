@@ -1,10 +1,20 @@
 package services
 
-func UserExists(userName string) bool {
+import (
+	"errors"
 
-	_, err := getUserFromDb(userName)
+	"github.com/sirupsen/logrus"
+	"gorm.io/gorm"
+)
+
+func UserExists(userName string) bool {
+	user, err := getUserFromDb(userName)
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return false
+		}
+		logrus.Errorf("Erro ao verificar existência do usuário: %v", err.Error())
 		return false
 	}
-	return true
+	return user.ID != 0
 }
