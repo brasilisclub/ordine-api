@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"ordine-api/config"
 	docs "ordine-api/docs"
 	"ordine-api/pkg/migrations"
 	"ordine-api/pkg/routes"
@@ -38,6 +39,8 @@ var ordineCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 
 		r := gin.Default()
+		r.Use(config.CorsMiddleware())
+
 		routes.Load(r)
 		//docs.SwaggerInfo.BasePath = "/api/v1"
 		docs.SwaggerInfo.BasePath = "/"
