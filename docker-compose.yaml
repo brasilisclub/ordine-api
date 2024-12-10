@@ -1,7 +1,5 @@
-version: '3.8'
-
 services:
-  api: &base
+  api:
     build:
       context: .
       dockerfile: build/go/Dockerfile
@@ -14,23 +12,9 @@ services:
       - database
     environment:
       LOG_LEVEL: INFO
-      ALLOWED_ORIGINS: https://example.com,https://test.com
-    deploy:
-      replicas: 2
-      restart_policy:
-        condition: on-failure
-      resources:
-        limits:
-          cpus: "0.5"
-          memory: "512M"
+      ALLOWED_ORIGINS: localhost,https://test.com
 
-  migrate:
-    <<: *base
-    command: go run main.go migrate
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
+
 
   database:
     build:
@@ -52,13 +36,7 @@ services:
       timeout: 5s
     ports:
       - "3306:3306"
-    deploy:
-      placement:
-        constraints: [node.role == manager]
-      resources:
-        limits:
-          cpus: "1.0"
-          memory: "1G"
+
 
   visualizer:
     image: dockersamples/visualizer:latest
