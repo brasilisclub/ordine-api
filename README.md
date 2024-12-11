@@ -78,7 +78,7 @@ docker push matheushpr9/ordine-api-database:v1.0.1
 docker swarm init --advertise-addr 192.168.2.100
 ```
 ```bash
-docker stack deploy --compose-file docker-compose.yml ordine
+ docker stack deploy --compose-file docker-compose.swarm.yml ordine
 ```
 ```bash
 docker ps
