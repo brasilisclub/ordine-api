@@ -105,4 +105,4 @@ Create a branch for your feature or fix.
 Commit your changes.
 Open a pull request describing the changes made.
 ## License
-This project is licensed under the  License.
+This project is licensed under the [MIT](https://choosealicense.com/licenses/mit/#) License.
