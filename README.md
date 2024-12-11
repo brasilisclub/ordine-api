@@ -79,12 +79,12 @@ docker build -t matheushpr9/ordine-api-node:v1.0.2 -f build\nodes\Dockerfile .
 ```
 push:
 ```bash
-docker push matheushpr9/ordine-api-database:v1.0.1
+docker push matheushpr9/ordine-api-node:v1.0.2
 ```
 
 to run a node:
 ```bash
-docker run -it -v /var/run/docker.sock:/var/run/docker.sock --name name matheushpr9/ordine-api-node:v1.0.1
+docker run -it --privileged --name swarm-node-worker matheushpr9/ordine-api-node:v1.0.2
 ```
  
 ## Contributing
