@@ -1,18 +1,24 @@
+version: '3.8'
+
 services:
   api:
-    image: matheushpr9/ordine-api-app:v1.0.1
+    image: matheushpr9/ordine-api-app:v1.0.3
     command: go run main.go run
     volumes:
       - .:/app
-    ports:
-      - "8080:8080"
     depends_on:
       - database
     environment:
       LOG_LEVEL: INFO
       ALLOWED_ORIGINS: localhost,https://test.com
+    ports:
+      - "8080:8080" # Posicione fora de deploy
+    deploy:
+      mode: replicated
+      replicas: 2
 
-
+      restart_policy:
+        condition: on-failure
 
   database:
     image: matheushpr9/ordine-api-database:v1.0.1
@@ -31,16 +37,24 @@ services:
       start_period: 60s
       timeout: 5s
     ports:
-      - "3306:3306"
-
+      - "3306:3306" # Posicione fora de deploy
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: "500M"
+      restart_policy:
+        condition: on-failure
 
   visualizer:
     image: dockersamples/visualizer:latest
-    ports:
-      - "8081:8080" 
     environment:
       - HOST=tasks.visualizer
       - PORT=8080
+    ports:
+      - "8081:8080" # Posicione fora de deploy
     deploy:
       mode: replicated
       replicas: 1
