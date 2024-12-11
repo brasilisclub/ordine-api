@@ -72,6 +72,21 @@ push:
 docker push matheushpr9/ordine-api-database:v1.0.1
 ```
 
+### nodes
+build:
+```bash
+docker build -t matheushpr9/ordine-api-node:v1.0.2 -f build\nodes\Dockerfile .
+```
+push:
+```bash
+docker push matheushpr9/ordine-api-database:v1.0.1
+```
+
+to run a node:
+```bash
+docker run -it -v /var/run/docker.sock:/var/run/docker.sock --name name matheushpr9/ordine-api-node:v1.0.2
+```
+ 
 ## Contributing
 If you would like to contribute to the project, follow these steps:
 
