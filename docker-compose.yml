@@ -51,6 +51,7 @@ services:
   visualizer:
     image: dockersamples/visualizer:latest
     environment:
+      - DOCKER_HOST=tcp://docker:2375  # Altere para o endereço correto do Docker
       - HOST=tasks.visualizer
       - PORT=8080
     ports:

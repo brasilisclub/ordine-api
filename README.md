@@ -91,6 +91,12 @@ docker logs ordine_api.1.w2wuo2k000toiyc685hind0yo
 docker swarm leave --force
 ```
 
+```bash
+docker service ps ordine_api
+```
+```bash
+docker service scale ordine_api=5
+```
 ## Contributing
 If you would like to contribute to the project, follow these steps:
 
