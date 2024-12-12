@@ -20,7 +20,7 @@ services:
       MYSQL_USER: bob_live
       MYSQL_PASSWORD: pwdlocal
       MYSQL_DATABASE: ordine
-      TZ: "America/Sao_Paulo"
+
     volumes:
       - database:/var/lib/mysql
     healthcheck:
