@@ -11,7 +11,7 @@ services:
       LOG_LEVEL: INFO
       ALLOWED_ORIGINS: localhost,https://test.com
     ports:
-      - "8080:8080" # Posicione fora de deploy
+      - "8080:8080"
     
     deploy:
       mode: replicated
@@ -37,7 +37,7 @@ services:
       start_period: 60s
       timeout: 5s
     ports:
-      - "3306:3306" # Posicione fora de deploy
+      - "3306:3306"
     deploy:
       mode: replicated
       replicas: 1
