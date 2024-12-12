@@ -102,7 +102,7 @@ escalar horizontalmente
 ```bash
 docker service scale ordine_api=5
 ```
-FAzer o nó atual deixar o cluster
+Fazer o nó atual deixar o cluster
 ```bash
 docker swarm leave --force
 ```
