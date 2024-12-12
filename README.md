@@ -73,30 +73,40 @@ docker push matheushpr9/ordine-api-database:v1.0.1
 ```
 
 ## Swarm  
- 
+ iniciando:
 ```bash
-docker swarm init --advertise-addr 192.168.2.100
+docker swarm init
 ```
+Adcionando outros nós ao cluster
+```bash
+docker swarm join --token <token> <addres>
+```
+
+Adicionar services ao nó baseando-se no docker-compose 
 ```bash
  docker stack deploy --compose-file docker-compose.swarm.yml ordine
 ```
+vizualizar containers
 ```bash
 docker ps
 ```
+ver logs:
 ```bash
 docker logs ordine_api.1.w2wuo2k000toiyc685hind0yo
 ```
-
+listar um service especifico
+```bash
+docker service ps ordine_api
+```
+escalar horizontalmente
+```bash
+docker service scale ordine_api=5
+```
+FAzer o nó atual deixar o cluster
 ```bash
 docker swarm leave --force
 ```
 
-```bash
-docker service ps ordine_api
-```
-```bash
-docker service scale ordine_api=5
-```
 ## Contributing
 If you would like to contribute to the project, follow these steps:
 
