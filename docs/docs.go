@@ -310,6 +310,11 @@ const docTemplate = `{
         },
         "/ordines/{id}/products": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Add products to an existing ordine by its ID",
                 "consumes": [
                     "application/json"

@@ -354,6 +354,8 @@ paths:
           description: Internal server error
           schema:
             $ref: '#/definitions/utils.GenericResponse'
+      security:
+      - BearerAuth: []
       summary: Add products to an ordine
       tags:
       - Ordine
