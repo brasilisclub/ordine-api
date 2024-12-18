@@ -9,6 +9,7 @@ import (
 type envs struct {
 	ALLOWED_ORIGINS string `json:"ALLOWED_ORIGINS" env:"ALLOWED_ORIGINS" default:""`
 	LOG_LEVEL       string `json:"LOG_LEVEL" env:"LOG_LEVEL" default:"info"`
+	API_SECRET_KEY  string `json:"API_SECRET_KEY" env:"API_SECRET_KEY"`
 }
 
 var (

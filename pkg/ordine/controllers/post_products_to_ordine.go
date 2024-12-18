@@ -15,7 +15,8 @@ import (
 // @Tags			Ordine
 // @Accept			json
 // @Produce			json
-// @Param			id	path		string	true	"Ordine ID"
+// @Security		BearerAuth
+// @Param			id		path		string	true	"Ordine ID"
 // @Param			body	body		[]ord.OrderProductBody	true	"Products to add to the ordine"
 // @Success		200		{object}	ordine.Ordine "Updated ordine"
 // @Failure		400		{object}	utils.GenericResponse "Invalid input or error updating ordine"
@@ -43,5 +44,4 @@ func PostProductsToOrdine(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, updatedOrdine)
-
 }

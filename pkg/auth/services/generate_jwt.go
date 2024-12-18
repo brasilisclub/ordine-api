@@ -1,6 +1,7 @@
 package services
 
 import (
+	"ordine-api/config"
 	"ordine-api/pkg/auth"
 	"time"
 
@@ -15,7 +16,7 @@ func GenerateJWT(user *auth.User) (string, error) {
 		"exp":      time.Now().Add(time.Hour * 24).Unix(), // Token expira em 24 horas
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	signedToken, err := token.SignedString([]byte("secret")) // Use uma chave secreta
+	signedToken, err := token.SignedString([]byte(config.Envs.API_SECRET_KEY)) // Use uma chave secreta
 	if err != nil {
 		return "", err
 	}

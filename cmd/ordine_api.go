@@ -32,6 +32,11 @@ import (
 
 // @externalDocs.description  OpenAPI
 // @externalDocs.url          https://swagger.io/resources/open-api/
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Use o esquema Bearer Token para autenticação. Formato: "Bearer {seu_token}"
+
 var ordineCmd = &cobra.Command{
 	Use:   "run",
 	Short: "A brief description of your application",
