@@ -7,14 +7,16 @@ import (
 	"gorm.io/gorm"
 )
 
-func UserExists(userName string) bool {
-	user, err := getUserFromDb(userName)
+func UserExists(userName string) error {
+	_, err := getUserFromDb(userName)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return false
+			logrus.Errorf("Username não encontrado: %v", err.Error())
+		} else {
+			logrus.Errorf("Erro ao verificar existência do usuário: %v", err.Error())
 		}
-		logrus.Errorf("Erro ao verificar existência do usuário: %v", err.Error())
-		return false
+
+		return err
 	}
-	return user.ID != 0
+	return nil
 }

@@ -5,6 +5,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -20,6 +21,18 @@ func Connect() {
 		os.Exit(1)
 	}
 	connection = c
+}
+
+func TestConnect() {
+	if connection == nil {
+		c, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
+		if err != nil {
+			logrus.Fatal("error connecting to database")
+			os.Exit(1)
+		}
+		connection = c
+	}
+
 }
 
 func GetConnector() *gorm.DB {

@@ -6,12 +6,12 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func PasswordIsValid(user *auth.User) bool {
+func PasswordIsValid(user *auth.User) error {
 	dbUser, err := getUserFromDb(user.Username)
 	if err != nil {
-		return false
+		return err
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(dbUser.Password), []byte(user.Password))
-	return err == nil
+	return err
 }

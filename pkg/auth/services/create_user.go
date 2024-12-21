@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"ordine-api/pkg/auth"
 	"ordine-api/pkg/database"
 )
@@ -9,8 +8,10 @@ import (
 func CreateUser(user *auth.AuthRequestBody) error {
 	var dbUser auth.User
 
-	if UserExists(user.Username) {
-		return fmt.Errorf("user with username %s already exists", user.Username)
+	err := UserExists(user.Username)
+
+	if err != nil {
+		return err
 	}
 
 	db := database.GetConnector()

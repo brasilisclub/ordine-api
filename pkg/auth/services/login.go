@@ -8,12 +8,16 @@ import (
 
 func Login(user *auth.User) (string, error) {
 
-	if !UserExists(user.Username) {
-		return "", errors.New(fmt.Sprintf("User %s not exists", user.Username))
+	err := UserExists(user.Username)
+
+	if err != nil {
+		return "", err
 	}
 
-	if !PasswordIsValid(user) {
-		return "", errors.New("Invalid password")
+	err = PasswordIsValid(user)
+
+	if err != nil {
+		return "", err
 	}
 
 	token, err := GenerateJWT(user)
