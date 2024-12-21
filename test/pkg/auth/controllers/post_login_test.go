@@ -24,6 +24,11 @@ func setUp() {
 	db.Save(&auth.User{Username: "test", Password: passwd})
 }
 
+func tearDown() {
+	db := database.GetConnector()
+	db.Migrator().DropTable(&auth.User{})
+}
+
 func TestPostLogin(t *testing.T) {
 	tests := []struct {
 		name       string
@@ -58,7 +63,7 @@ func TestPostLogin(t *testing.T) {
 	}
 
 	setUp()
-
+	defer tearDown()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Configura o mock do contexto e da requisição.
