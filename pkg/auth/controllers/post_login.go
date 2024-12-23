@@ -10,7 +10,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
-	"gorm.io/gorm"
 )
 
 // PostLogin godoc
@@ -38,7 +37,7 @@ func PostLogin(ctx *gin.Context) {
 		Password: requestBody.Password,
 	})
 	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) || errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
+		if errors.Is(err, auth.ErrorUserNotFound) || errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
 			ctx.JSON(http.StatusUnauthorized, utils.GenericResponse{
 				Message: fmt.Sprintf("Invalid credentials: %s", err.Error()),
 			})

@@ -8,13 +8,11 @@ import (
 
 func Login(user *auth.User) (string, error) {
 
-	err := UserExists(user.Username)
-
-	if err != nil {
-		return "", err
+	if !UserExists(user.Username) {
+		return "", auth.ErrorUserNotFound
 	}
 
-	err = PasswordIsValid(user)
+	err := PasswordIsValid(user)
 
 	if err != nil {
 		return "", err

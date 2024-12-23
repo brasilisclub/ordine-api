@@ -15,7 +15,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func setUp() {
+func setUpLoginTests() {
 	database.TestConnect()
 	db := database.GetConnector()
 
@@ -62,7 +62,7 @@ func TestPostLogin(t *testing.T) {
 		},
 	}
 
-	setUp()
+	setUpLoginTests()
 	defer tearDown()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

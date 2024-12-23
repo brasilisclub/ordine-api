@@ -8,10 +8,8 @@ import (
 func CreateUser(user *auth.AuthRequestBody) error {
 	var dbUser auth.User
 
-	err := UserExists(user.Username)
-
-	if err != nil {
-		return err
+	if UserExists(user.Username) {
+		return auth.ErrorUserAlreadyExists
 	}
 
 	db := database.GetConnector()

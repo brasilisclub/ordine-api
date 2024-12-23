@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"ordine-api/pkg/auth"
@@ -33,6 +34,12 @@ func PostRegister(ctx *gin.Context) {
 	}
 	err = services.CreateUser(&bodyUser)
 	if err != nil {
+		if errors.Is(err, auth.ErrorUserAlreadyExists) {
+			ctx.JSON(http.StatusConflict, gin.H{
+				"message": err.Error(),
+			})
+			return
+		}
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"message": fmt.Sprintf("Internal error trying to create user %s", err.Error()),
 		})
