@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	prod "ordine-api/pkg/product"
+	"ordine-api/pkg/product/services"
 	"ordine-api/pkg/utils"
 
 	"github.com/gin-gonic/gin"
@@ -31,7 +32,7 @@ func PostProduct(ctx *gin.Context) {
 		return
 	}
 
-	result, err := prod.CreateProduct(&product)
+	result, err := services.CreateProduct(&product)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, utils.GenericResponse{
 			Message: fmt.Sprintf("Internal Server error: %s", err.Error()),

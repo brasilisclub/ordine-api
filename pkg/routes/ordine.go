@@ -8,9 +8,9 @@ import (
 
 func OrdineRoutes(r *gin.Engine) {
 	r.GET("/ordines", controllers.GetOrdines)
-	r.GET("/ordines/:id", controllers.GetOrdine)
-	r.POST("/ordines", controllers.PostOrdine)
-	r.POST("/ordines/:id/products", controllers.PostProductsToOrdine)
-	r.PUT("/ordines/:id", controllers.PutOrdine)
-	r.DELETE("/ordines/:id", controllers.DeleteOrdine)
+	r.GET("/ordine/:id", controllers.GetOrdine)
+	r.POST("/ordine", controllers.PostOrdine)
+	r.POST("/ordine/:id/products", controllers.PostProductsToOrdine)
+	r.PUT("/ordine/:id", controllers.PutOrdine)
+	r.DELETE("/ordine/:id", controllers.DeleteOrdine)
 }

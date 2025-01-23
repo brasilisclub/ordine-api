@@ -1,15 +1,16 @@
-package product
+package services
 
 import (
 	"errors"
 	"fmt"
 	"ordine-api/pkg/database"
+	"ordine-api/pkg/product"
 )
 
-func CreateProduct(p *ProductRequestBody) (*Product, error) {
+func CreateProduct(p *product.ProductRequestBody) (*product.Product, error) {
 	db := database.GetConnector()
 
-	var dbProduct Product
+	var dbProduct product.Product
 
 	dbProduct.Name = p.Name
 	dbProduct.Category = p.Category

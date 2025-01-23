@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	prod "ordine-api/pkg/product"
+	"ordine-api/pkg/product/services"
 	"ordine-api/pkg/utils"
 
 	"github.com/gin-gonic/gin"
@@ -31,7 +32,7 @@ func PutProduct(ctx *gin.Context) {
 		return
 	}
 
-	updatedProduct, err := prod.UpdateProduct(ctx.Param("id"), &product)
+	updatedProduct, err := services.UpdateProduct(ctx.Param("id"), &product)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, utils.GenericResponse{
 			Message: fmt.Sprintf("Error trying update product: %s", err.Error()),

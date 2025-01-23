@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"ordine-api/pkg/database"
 	ord "ordine-api/pkg/ordine"
-	"ordine-api/pkg/product"
+	"ordine-api/pkg/product/services"
 
 	"gorm.io/gorm"
 )
@@ -15,7 +15,7 @@ func addProductToOrdine(ordId uint, prodId string, quant int) error {
 		return fmt.Errorf("quantity <= 0")
 	}
 
-	dbProduct, err := product.GetProductById(prodId)
+	dbProduct, err := services.GetProductById(prodId)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return fmt.Errorf("product with ID %s not founded", prodId)

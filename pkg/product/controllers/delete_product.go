@@ -3,7 +3,7 @@ package controllers
 import (
 	"fmt"
 	"net/http"
-	prod "ordine-api/pkg/product"
+	"ordine-api/pkg/product/services"
 	"ordine-api/pkg/utils"
 
 	"github.com/gin-gonic/gin"
@@ -22,7 +22,7 @@ import (
 // @Router			/products/{id} [delete]
 func DeleteProduct(ctx *gin.Context) {
 
-	err := prod.RemoveProduct(ctx.Param("id"))
+	err := services.RemoveProduct(ctx.Param("id"))
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, utils.GenericResponse{
 			Message: fmt.Sprintf("Error trying to delete product: %s", err.Error()),

@@ -3,7 +3,7 @@ package controllers
 import (
 	"fmt"
 	"net/http"
-	prod "ordine-api/pkg/product"
+	"ordine-api/pkg/product/services"
 	"ordine-api/pkg/utils"
 
 	"github.com/gin-gonic/gin"
@@ -21,7 +21,7 @@ import (
 // @Router			/products [get]
 func GetProducts(ctx *gin.Context) {
 
-	products, err := prod.GetAllProducts()
+	products, err := services.GetAllProducts()
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, utils.GenericResponse{
 			Message: fmt.Sprintf("An unexpected error occurred while processing the request: %s", err.Error()),

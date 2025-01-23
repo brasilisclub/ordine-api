@@ -1,13 +1,14 @@
-package product
+package services
 
 import (
 	"errors"
 	"fmt"
 	"ordine-api/pkg/database"
+	"ordine-api/pkg/product"
 )
 
-func GetProductById(id string) (Product, error) {
-	var product Product
+func GetProductById(id string) (product.Product, error) {
+	var product product.Product
 
 	db := database.GetConnector()
 

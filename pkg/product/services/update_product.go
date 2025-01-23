@@ -1,14 +1,15 @@
-package product
+package services
 
 import (
 	"errors"
 	"fmt"
 	"ordine-api/pkg/database"
+	"ordine-api/pkg/product"
 
 	"gorm.io/gorm"
 )
 
-func UpdateProduct(id string, p *ProductRequestBody) (*Product, error) {
+func UpdateProduct(id string, p *product.ProductRequestBody) (*product.Product, error) {
 	db := database.GetConnector()
 
 	dbProduct, err := GetProductById(id)

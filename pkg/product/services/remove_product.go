@@ -1,9 +1,10 @@
-package product
+package services
 
 import (
 	"errors"
 	"fmt"
 	"ordine-api/pkg/database"
+	"ordine-api/pkg/product"
 	"strconv"
 )
 
@@ -14,7 +15,7 @@ func RemoveProduct(id string) error {
 	}
 	db := database.GetConnector()
 
-	result := db.Delete(&Product{}, productId)
+	result := db.Delete(&product.Product{}, productId)
 	if result.Error != nil {
 		return errors.New(fmt.Sprintf("Error deleting product: %s", result.Error.Error()))
 	}
