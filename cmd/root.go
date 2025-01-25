@@ -4,6 +4,10 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
+	"ordine-api/config"
+	"ordine-api/pkg/http"
+	"ordine-api/pkg/migrations"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -24,16 +28,36 @@ Ordine API
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "ordine-api",
-	Short: "",
-	Long:  logo,
+	Use:   "entrypoint",
+	Short: "All commands available of your application",
+	Long:  logo + `This application default action is startt webserver interface`,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Printf(logo+"Service http started, listening port: %v and log_level: %v\n", config.Envs.PORT, config.Envs.LOG_LEVEL)
+		http.GetServer().Run()
+	},
 }
 
+var migrateCmd = &cobra.Command{
+	Use:   "migrate",
+	Short: "A brief description of your application",
+	Long:  ``,
+	Run: func(cmd *cobra.Command, args []string) {
+		migrations.Migrate()
+	},
+}
+
+func init() {
+	// root command block
+	rootCmd.AddCommand(migrateCmd)
+}
+
+// osExit interface to allow testing
+var osExit = os.Exit
+
 // Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	err := rootCmd.Execute()
 	if err != nil {
-		os.Exit(1)
+		osExit(1)
 	}
 }
