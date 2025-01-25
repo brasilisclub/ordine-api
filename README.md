@@ -24,7 +24,7 @@ docker-compose up migrate
 To start the API, run:
 
 ```bash
-docker-compose up api
+docker-compose up app
 ```
 
 This will start the application server, and you will be able to interact with the API.
@@ -40,10 +40,16 @@ docker-compose down
 If you want to stop the application and also remove the database, use:
 
 ```bash
-docker-compose down
+docker-compose down -v
 ```
 
 Note: Removing the database will require you to run the migrations again.
+
+## Tests
+To run the tests use the following command:
+```bash
+docker-compose up test
+```
 
 ## Swagger
 http://localhost:8080/swagger/index.html
