@@ -28,9 +28,9 @@ Ordine API
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "entrypoint",
+	Use:   "ordine-api",
 	Short: "All commands available of your application",
-	Long:  logo + `This application default action is startt webserver interface`,
+	Long:  logo + `This application default action is start the api`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf(logo+"Service http started, listening port: %v and log_level: %v\n", config.Envs.PORT, config.Envs.LOG_LEVEL)
 		http.GetServer().Run()

@@ -16,6 +16,16 @@ func TestExecute(t *testing.T) {
 			args: []string{"--help"},
 			want: 0,
 		},
+		{
+			name: "should exit 0",
+			args: []string{"invalid"},
+			want: 1,
+		},
+		{
+			name: "should migrate with exit 0",
+			args: []string{"migrate"},
+			want: 0,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

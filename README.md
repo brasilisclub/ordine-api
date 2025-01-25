@@ -51,6 +51,11 @@ To run the tests use the following command:
 docker-compose up test
 ```
 
+To see the covered off use this command:
+```bash
+go tool cover -html profile.cov
+```
+
 ## Swagger
 http://localhost:8080/swagger/index.html
 
