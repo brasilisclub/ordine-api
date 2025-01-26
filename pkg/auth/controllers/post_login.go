@@ -9,6 +9,7 @@ import (
 	"ordine-api/pkg/utils"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -46,6 +47,7 @@ func PostLogin(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, utils.GenericResponse{
 			Message: fmt.Sprintf("Error trying to generate token: %s", err.Error()),
 		})
+		logrus.Errorf("%s", err.Error())
 		return
 	}
 
