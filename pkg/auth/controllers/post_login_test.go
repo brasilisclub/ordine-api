@@ -8,14 +8,13 @@ import (
 	"ordine-api/pkg/auth"
 	"ordine-api/pkg/auth/services"
 	"ordine-api/pkg/database"
-	"ordine-api/pkg/migrations"
 	"testing"
 
 	"github.com/gin-gonic/gin"
 )
 
 func setUpPostLoginTest() {
-	migrations.Migrate() // perguntar ao Gritzko
+	c.AutoMigrate(&auth.User{}) // perguntar ao Gritzko
 	c := database.GetConnector()
 	hp, err := services.HashPassword("validpassword")
 	if err != nil {

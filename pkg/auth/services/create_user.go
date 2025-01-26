@@ -19,11 +19,9 @@ func CreateUser(user *auth.AuthRequestBody) error {
 	if err != nil {
 		return err
 	}
+
 	dbUser.Password = hashedPassword
+	err = db.Save(&dbUser).Error
 
-	if err := db.Save(&dbUser).Error; err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }

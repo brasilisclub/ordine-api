@@ -8,7 +8,6 @@ import (
 	"ordine-api/pkg/auth"
 	"ordine-api/pkg/auth/services"
 	"ordine-api/pkg/database"
-	"ordine-api/pkg/migrations"
 	"testing"
 
 	"github.com/gin-gonic/gin"
@@ -43,7 +42,7 @@ func TestPostRegister(t *testing.T) {
 			},
 			expectedStatus: http.StatusConflict,
 			setUpTest: func() {
-				migrations.Migrate()
+				c.AutoMigrate(&auth.User{})
 				hp, _ := services.HashPassword("test")
 
 				c.Create(&auth.User{Username: "test", Password: hp})
@@ -69,7 +68,7 @@ func TestPostRegister(t *testing.T) {
 			requestBody:    auth.AuthRequestBody{Username: "test", Password: "test"},
 			expectedStatus: http.StatusCreated,
 			setUpTest: func() {
-				migrations.Migrate()
+				c.AutoMigrate(&auth.User{})
 			},
 			dropDownTest: func() {
 				c.Migrator().DropTable(&auth.User{})
