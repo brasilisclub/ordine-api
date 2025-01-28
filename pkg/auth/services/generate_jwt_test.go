@@ -28,9 +28,9 @@ func TestGenerateJWT(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, err := GenerateJWT(tt.args.user)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GenerateJWT() error = %v, wantErr %v", err, tt.wantErr)
+			gotToken := GenerateJWT(tt.args.user)
+			if len(gotToken) != 139 {
+				t.Errorf("Invalid token length, %s has %v characters, must be 139", gotToken, len(gotToken))
 				return
 			}
 

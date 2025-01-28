@@ -7,10 +7,11 @@ import (
 )
 
 type envs struct {
-	ALLOWED_ORIGINS string `json:"ALLOWED_ORIGINS" env:"ALLOWED_ORIGINS" default:""`
-	LOG_LEVEL       string `json:"LOG_LEVEL" env:"LOG_LEVEL" default:"info"`
-	ENVIRONMENT     string `json:"ENVIRONMENT" env:"ENVIRONMENT" default:"local"`
-	PORT            string `json:"PORTS" env:"PORTS" default:"8080"`
+	ALLOWED_ORIGINS  string `json:"ALLOWED_ORIGINS" env:"ALLOWED_ORIGINS" default:""`
+	ENVIRONMENT      string `json:"ENVIRONMENT" env:"ENVIRONMENT" default:"local"`
+	JWT_SECRET_TOKEN string `json:"JWT_SECRET_TOKEN" env:"JWT_SECRET_TOKEN" default:"secret"`
+	LOG_LEVEL        string `json:"LOG_LEVEL" env:"LOG_LEVEL" default:"info"`
+	PORT             string `json:"PORTS" env:"PORTS" default:"8080"`
 }
 
 var (
