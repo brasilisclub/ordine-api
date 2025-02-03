@@ -9,8 +9,7 @@ import (
 
 func RemoveOrdine(id string) error {
 	db := database.GetConnector()
-
-	result := db.Where("id = ?", id).Delete(&ord.Ordine{})
+	result := db.Delete(&ord.Ordine{}, id)
 
 	if result.Error != nil {
 		return fmt.Errorf("error deleting ordine: %s", result.Error)
