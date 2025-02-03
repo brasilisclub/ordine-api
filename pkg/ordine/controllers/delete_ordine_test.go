@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"ordine-api/pkg/database"
 	"ordine-api/pkg/ordine"
+	"ordine-api/tests"
 	"testing"
 
 	"github.com/gin-gonic/gin"
@@ -24,12 +24,10 @@ func TestDeleteOrdine(t *testing.T) {
 			ordineId:           "1",
 			expectedStatusCode: http.StatusBadRequest,
 			setUpTest: func() {
-				c := database.GetConnector()
-				c.AutoMigrate(&ordine.Ordine{})
+				tests.MakeMigrationsForTests(&ordine.Ordine{})
 			},
 			dropDownTest: func() {
-				c := database.GetConnector()
-				c.Migrator().DropTable(&ordine.Ordine{})
+				tests.DropTablesForTests(&ordine.Ordine{})
 
 			},
 		},
@@ -49,10 +47,9 @@ func TestDeleteOrdine(t *testing.T) {
 			ordineId:           "1",
 			expectedStatusCode: http.StatusOK,
 			setUpTest: func() {
-				c := database.GetConnector()
-				c.AutoMigrate(&ordine.Ordine{})
+				tests.MakeMigrationsForTests(&ordine.Ordine{})
 
-				c.Create(&ordine.Ordine{
+				tests.CreateInsertValueForTests(&ordine.Ordine{
 					ID:         1,
 					Table:      10,
 					ClientName: "Test",
@@ -61,8 +58,7 @@ func TestDeleteOrdine(t *testing.T) {
 
 			},
 			dropDownTest: func() {
-				c := database.GetConnector()
-				c.Migrator().DropTable(&ordine.Ordine{})
+				tests.DropTablesForTests(&ordine.Ordine{})
 			},
 		},
 	}

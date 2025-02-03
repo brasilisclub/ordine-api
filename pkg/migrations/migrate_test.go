@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"ordine-api/pkg/auth"
-	"ordine-api/pkg/database"
 	"ordine-api/pkg/ordine"
 	"ordine-api/pkg/product"
+	"ordine-api/tests"
 	"os"
 	"testing"
 
@@ -23,8 +23,8 @@ func TestMigrate(t *testing.T) {
 			name:        "Should execute migrations successfully",
 			expectedLog: "Migrations successfully executed!",
 			dropDownTest: func() {
-				c := database.GetConnector()
-				c.Migrator().DropTable(&ordine.Ordine{}, &product.Product{}, &ordine.OrderProducts{}, &auth.User{})
+
+				tests.DropTablesForTests(&ordine.Ordine{}, &product.Product{}, &ordine.OrderProducts{}, &auth.User{})
 				logrus.SetOutput(os.Stdout)
 				logrus.SetFormatter(&logrus.JSONFormatter{PrettyPrint: true})
 			},

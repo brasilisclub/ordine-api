@@ -2,14 +2,10 @@ package services
 
 import (
 	"ordine-api/pkg/auth"
+	"ordine-api/tests"
 
-	"ordine-api/pkg/database"
 	"testing"
-
-	"github.com/sirupsen/logrus"
 )
-
-var c = database.GetConnector()
 
 func TestCreateUser(t *testing.T) {
 	type args struct {
@@ -29,15 +25,12 @@ func TestCreateUser(t *testing.T) {
 			},
 			wantErr: true,
 			setUpTest: func() {
-				c.AutoMigrate(&auth.User{})
+				tests.MakeMigrationsForTests(&auth.User{})
 				hp, _ := HashPassword("test")
-				c.Save(&auth.User{Username: "test", Password: hp})
+				tests.CreateInsertValueForTests(&auth.User{Username: "test", Password: hp})
 			},
 			dropDownTest: func() {
-				err := c.Migrator().DropTable(&auth.User{})
-				if err != nil {
-					logrus.Error(err.Error())
-				}
+				tests.DropTablesForTests(&auth.User{})
 			},
 		},
 		{
@@ -47,10 +40,10 @@ func TestCreateUser(t *testing.T) {
 			},
 			wantErr: true,
 			setUpTest: func() {
-				c.AutoMigrate(&auth.User{})
+				tests.MakeMigrationsForTests(&auth.User{})
 			},
 			dropDownTest: func() {
-				c.Migrator().DropTable(&auth.User{})
+				tests.DropTablesForTests(&auth.User{})
 			},
 		},
 		{
@@ -60,10 +53,10 @@ func TestCreateUser(t *testing.T) {
 			},
 			wantErr: false,
 			setUpTest: func() {
-				c.AutoMigrate(&auth.User{})
+				tests.MakeMigrationsForTests(&auth.User{})
 			},
 			dropDownTest: func() {
-				c.Migrator().DropTable(&auth.User{})
+				tests.DropTablesForTests(&auth.User{})
 			},
 		},
 	}

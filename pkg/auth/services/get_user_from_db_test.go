@@ -2,6 +2,7 @@ package services
 
 import (
 	"ordine-api/pkg/auth"
+	"ordine-api/tests"
 	"reflect"
 	"testing"
 	"time"
@@ -29,11 +30,11 @@ func Test_getUserFromDb(t *testing.T) {
 			want:    auth.User{ID: 1, Username: "test", Password: "test"},
 			wantErr: false,
 			setUpTest: func() {
-				c.AutoMigrate(&auth.User{})
-				c.Create(&auth.User{Username: "test", Password: "test"})
+				tests.MakeMigrationsForTests(&auth.User{})
+				tests.CreateInsertValueForTests(&auth.User{Username: "test", Password: "test"})
 			},
 			dropDownTest: func() {
-				c.Migrator().DropTable(&auth.User{})
+				tests.DropTablesForTests(&auth.User{})
 			},
 		},
 		{

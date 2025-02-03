@@ -2,6 +2,7 @@ package services
 
 import (
 	"ordine-api/pkg/auth"
+	"ordine-api/tests"
 	"testing"
 )
 
@@ -27,10 +28,10 @@ func TestLogin(t *testing.T) {
 			},
 			wantErr: true,
 			setUpTest: func() {
-				c.AutoMigrate(&auth.User{})
+				tests.MakeMigrationsForTests(&auth.User{})
 			},
 			dropDownTest: func() {
-				c.Migrator().DropTable(&auth.User{})
+				tests.DropTablesForTests(&auth.User{})
 			},
 		},
 		{
@@ -43,12 +44,12 @@ func TestLogin(t *testing.T) {
 			},
 			wantErr: true,
 			setUpTest: func() {
-				c.AutoMigrate(&auth.User{})
+				tests.MakeMigrationsForTests(&auth.User{})
 				hp, _ := HashPassword("test")
-				c.Create(&auth.User{Username: "test", Password: hp})
+				tests.CreateInsertValueForTests(&auth.User{Username: "test", Password: hp})
 			},
 			dropDownTest: func() {
-				c.Migrator().DropTable(&auth.User{})
+				tests.DropTablesForTests(&auth.User{})
 			},
 		},
 		{
@@ -61,12 +62,12 @@ func TestLogin(t *testing.T) {
 			},
 			wantErr: false,
 			setUpTest: func() {
-				c.AutoMigrate(&auth.User{})
+				tests.MakeMigrationsForTests(&auth.User{})
 				hp, _ := HashPassword("test")
-				c.Create(&auth.User{Username: "test", Password: hp})
+				tests.CreateInsertValueForTests(&auth.User{Username: "test", Password: hp})
 			},
 			dropDownTest: func() {
-				c.Migrator().DropTable(&auth.User{})
+				tests.DropTablesForTests(&auth.User{})
 			},
 		},
 	}

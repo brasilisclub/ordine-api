@@ -7,13 +7,11 @@ import (
 	"net/http/httptest"
 	"ordine-api/pkg/auth"
 	"ordine-api/pkg/auth/services"
-	"ordine-api/pkg/database"
+	"ordine-api/tests"
 	"testing"
 
 	"github.com/gin-gonic/gin"
 )
-
-var c = database.GetConnector()
 
 func TestPostRegister(t *testing.T) {
 	tests := []struct {
@@ -42,14 +40,14 @@ func TestPostRegister(t *testing.T) {
 			},
 			expectedStatus: http.StatusConflict,
 			setUpTest: func() {
-				c.AutoMigrate(&auth.User{})
+				tests.MakeMigrationsForTests(&auth.User{})
 				hp, _ := services.HashPassword("test")
 
-				c.Create(&auth.User{Username: "test", Password: hp})
+				tests.CreateInsertValueForTests(&auth.User{Username: "test", Password: hp})
 
 			},
 			dropDownTest: func() {
-				c.Migrator().DropTable(&auth.User{})
+				tests.DropTablesForTests(&auth.User{})
 			},
 		},
 		{
@@ -68,10 +66,10 @@ func TestPostRegister(t *testing.T) {
 			requestBody:    auth.AuthRequestBody{Username: "test", Password: "test"},
 			expectedStatus: http.StatusCreated,
 			setUpTest: func() {
-				c.AutoMigrate(&auth.User{})
+				tests.MakeMigrationsForTests(&auth.User{})
 			},
 			dropDownTest: func() {
-				c.Migrator().DropTable(&auth.User{})
+				tests.DropTablesForTests(&auth.User{})
 			},
 		},
 	}
