@@ -96,37 +96,7 @@
                 }
             }
         },
-        "/ordines": {
-            "get": {
-                "description": "Retrieve a list of all ordines",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Ordine"
-                ],
-                "summary": "Get all ordines",
-                "responses": {
-                    "200": {
-                        "description": "List of ordines",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ordine.Ordine"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/utils.GenericResponse"
-                        }
-                    }
-                }
-            },
+        "/ordine": {
             "post": {
                 "description": "Create a new ordine with the provided data",
                 "consumes": [
@@ -166,7 +136,7 @@
                 }
             }
         },
-        "/ordines/{id}": {
+        "/ordine/{id}": {
             "get": {
                 "description": "Retrieve an ordine by its unique ID",
                 "consumes": [
@@ -290,6 +260,38 @@
                     },
                     "400": {
                         "description": "Error trying to delete ordine",
+                        "schema": {
+                            "$ref": "#/definitions/utils.GenericResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ordines": {
+            "get": {
+                "description": "Retrieve a list of all ordines",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Ordine"
+                ],
+                "summary": "Get all ordines",
+                "responses": {
+                    "200": {
+                        "description": "List of ordines",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ordine.Ordine"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
                         "schema": {
                             "$ref": "#/definitions/utils.GenericResponse"
                         }

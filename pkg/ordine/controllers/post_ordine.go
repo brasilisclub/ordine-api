@@ -20,7 +20,7 @@ import (
 // @Param			body	body		ord.OrdineRequestBody	true	"Ordine data"
 // @Success		200		{object}	ordine.Ordine "Created ordine"
 // @Failure		400		{object}	utils.GenericResponse "Invalid input or error creating ordine"
-// @Router			/ordines [post]
+// @Router			/ordine [post]
 func PostOrdine(ctx *gin.Context) {
 	var ordine ord.OrdineRequestBody
 

@@ -187,27 +187,7 @@ paths:
       summary: Register
       tags:
       - Auth
-  /ordines:
-    get:
-      consumes:
-      - application/json
-      description: Retrieve a list of all ordines
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: List of ordines
-          schema:
-            items:
-              $ref: '#/definitions/ordine.Ordine'
-            type: array
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/utils.GenericResponse'
-      summary: Get all ordines
-      tags:
-      - Ordine
+  /ordine:
     post:
       consumes:
       - application/json
@@ -233,7 +213,7 @@ paths:
       summary: Create a new ordine
       tags:
       - Ordine
-  /ordines/{id}:
+  /ordine/{id}:
     delete:
       consumes:
       - application/json
@@ -318,6 +298,27 @@ paths:
           schema:
             $ref: '#/definitions/utils.GenericResponse'
       summary: Update an ordine
+      tags:
+      - Ordine
+  /ordines:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of all ordines
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of ordines
+          schema:
+            items:
+              $ref: '#/definitions/ordine.Ordine'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Get all ordines
       tags:
       - Ordine
   /ordines/{id}/products:

@@ -20,7 +20,7 @@ import (
 // @Success		200		{object}	ordine.Ordine "Ordine data"
 // @Failure		400		{object}	utils.GenericResponse "Invalid ID format"
 // @Failure		500		{object}	utils.GenericResponse "Internal server error"
-// @Router			/ordines/{id} [get]
+// @Router			/ordine/{id} [get]
 func GetOrdine(ctx *gin.Context) {
 	ordine, err := services.GetOrdineById(ctx.Param("id"))
 	if err != nil {

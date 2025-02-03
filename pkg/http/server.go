@@ -1,8 +1,8 @@
 package http
 
 import (
+	"ordine-api/api"
 	"ordine-api/config"
-	"ordine-api/docs"
 	"ordine-api/pkg/http/routes"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +16,7 @@ func GetServer() *gin.Engine {
 
 	routes.Load(r)
 	//docs.SwaggerInfo.BasePath = "/api/v1"
-	docs.SwaggerInfo.BasePath = "/"
+	api.SwaggerInfo.BasePath = "/"
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	return r
 }

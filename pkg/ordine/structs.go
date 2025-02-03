@@ -11,7 +11,7 @@ type OrdineRequestBody struct {
 	Status     bool   `json:"status" bson:"status"`
 }
 type Ordine struct {
-	ID         uint            `json:"id" bson:"id"`
+	ID         uint            `json:"id" bson:"id" gorm:"primaryKey"`
 	CreatedAt  time.Time       `json:"created_at" bson:"created_at"`
 	UpdatedAt  time.Time       `json:"updated_at" bson:"updated_at"`
 	DeletedAt  *time.Time      `json:"deleted_at,omitempty" bson:"deleted_at,omitempty"`
