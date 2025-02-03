@@ -7,27 +7,11 @@ import (
 	"net/http/httptest"
 	"ordine-api/pkg/auth"
 	"ordine-api/pkg/auth/services"
-	"ordine-api/pkg/database"
+	"ordine-api/tests"
 	"testing"
 
 	"github.com/gin-gonic/gin"
 )
-
-func setUpPostLoginTest() {
-	c.AutoMigrate(&auth.User{}) // perguntar ao Gritzko
-	c := database.GetConnector()
-	hp, err := services.HashPassword("validpassword")
-	if err != nil {
-		panic("cant hashed the password")
-	}
-	user := auth.User{Username: "validuser", Password: hp}
-	c.Create(&user)
-}
-
-func dropDownPostLoginTest() {
-	c := database.GetConnector()
-	c.Where("username = ?", "validuser").Delete(&auth.User{})
-}
 
 func TestPostLogin(t *testing.T) {
 
@@ -35,6 +19,8 @@ func TestPostLogin(t *testing.T) {
 		name           string
 		requestBody    auth.AuthRequestBody
 		expectedStatus int
+		setUpTest      func()
+		dropDownTest   func()
 	}{
 		{
 			name: "Success - Valid Credentials",
@@ -43,6 +29,20 @@ func TestPostLogin(t *testing.T) {
 				Password: "validpassword",
 			},
 			expectedStatus: http.StatusOK,
+			setUpTest: func() {
+				tests.MakeMigrationsForTests(&auth.User{})
+
+				hp, err := services.HashPassword("validpassword")
+				if err != nil {
+					panic("cant hashed the password")
+				}
+
+				user := auth.User{Username: "validuser", Password: hp}
+				tests.CreateInsertValueForTests(&user)
+			},
+			dropDownTest: func() {
+				tests.DropTablesForTests(&auth.User{})
+			},
 		},
 		{
 			name: "Failure - Invalid Credentials",
@@ -51,16 +51,47 @@ func TestPostLogin(t *testing.T) {
 				Password: "wrongpassword",
 			},
 			expectedStatus: http.StatusUnauthorized,
+			setUpTest: func() {
+				tests.MakeMigrationsForTests(&auth.User{})
+
+				hp, err := services.HashPassword("validpassword")
+				if err != nil {
+					panic("cant hashed the password")
+				}
+
+				user := auth.User{Username: "validuser", Password: hp}
+				tests.CreateInsertValueForTests(&user)
+			},
+			dropDownTest: func() {
+				tests.DropTablesForTests(&auth.User{})
+			},
 		},
 		{
 			name:           "Failure - Invalid Input",
 			requestBody:    auth.AuthRequestBody{},
 			expectedStatus: http.StatusBadRequest,
+			setUpTest: func() {
+				tests.MakeMigrationsForTests(&auth.User{})
+
+				hp, err := services.HashPassword("validpassword")
+				if err != nil {
+					panic("cant hashed the password")
+				}
+
+				user := auth.User{Username: "validuser", Password: hp}
+				tests.CreateInsertValueForTests(&user)
+			},
+			dropDownTest: func() {
+				tests.DropTablesForTests(&auth.User{})
+			},
 		},
 	}
-	setUpPostLoginTest()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+
+			tt.setUpTest()
+			defer tt.dropDownTest()
+
 			w := httptest.NewRecorder()
 			c, _ := gin.CreateTestContext(w)
 
@@ -75,5 +106,4 @@ func TestPostLogin(t *testing.T) {
 			}
 		})
 	}
-	dropDownPostLoginTest()
 }

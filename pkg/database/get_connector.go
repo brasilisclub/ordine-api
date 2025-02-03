@@ -2,7 +2,6 @@ package database
 
 import (
 	"github.com/sirupsen/logrus"
-	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
@@ -13,9 +12,9 @@ var (
 func Connect() {
 
 	dsn := getDsn()
-	c, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	c, err := getConnection(dsn)
 	if err != nil {
-		logrus.Fatal("error connecting to database")
+		logrus.Fatalf("error connecting to database %s", err.Error())
 	}
 	connection = c
 

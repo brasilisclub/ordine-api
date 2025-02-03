@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"ordine-api/pkg/database"
 	"ordine-api/pkg/ordine"
 	"ordine-api/pkg/product"
+	"ordine-api/tests"
 	"testing"
 
 	"github.com/gin-gonic/gin"
@@ -25,12 +25,10 @@ func TestGetOrdine(t *testing.T) {
 			ordineId:           "1",
 			expectedStatusCode: http.StatusBadRequest,
 			setupTest: func() {
-				c := database.GetConnector()
-				c.AutoMigrate(&ordine.Ordine{})
+				tests.MakeMigrationsForTests(&ordine.Ordine{})
 			},
 			dropDownTest: func() {
-				c := database.GetConnector()
-				c.Migrator().DropTable(&ordine.Ordine{})
+				tests.DropTablesForTests(&ordine.Ordine{})
 			},
 		},
 		{
@@ -49,9 +47,8 @@ func TestGetOrdine(t *testing.T) {
 			ordineId:           "1",
 			expectedStatusCode: http.StatusOK,
 			setupTest: func() {
-				c := database.GetConnector()
-				c.AutoMigrate(&ordine.Ordine{}, product.Product{}, ordine.OrderProducts{})
-				c.Create(&ordine.Ordine{
+				tests.MakeMigrationsForTests(&ordine.Ordine{}, product.Product{}, ordine.OrderProducts{})
+				tests.CreateInsertValueForTests(&ordine.Ordine{
 					ID:         1,
 					Table:      10,
 					ClientName: "test",
@@ -59,8 +56,7 @@ func TestGetOrdine(t *testing.T) {
 				})
 			},
 			dropDownTest: func() {
-				c := database.GetConnector()
-				c.Migrator().DropTable(&ordine.Ordine{})
+				tests.DropTablesForTests(&ordine.Ordine{}, product.Product{}, ordine.OrderProducts{})
 			},
 		},
 	}
