@@ -17,6 +17,6 @@ type OrderProducts struct {
 }
 
 type OrderProductBody struct {
-	ProductID int `json:"product_id"`
-	Quantity  int `json:"quantity"`
+	ProductID int `json:"product_id" binding:"required"`
+	Quantity  int `json:"quantity" binding:"required"`
 }

@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"ordine-api/pkg/database"
 	"ordine-api/pkg/product"
+
+	"gorm.io/gorm"
 )
 
 func GetProductById(id string) (product.Product, error) {
@@ -14,6 +16,9 @@ func GetProductById(id string) (product.Product, error) {
 
 	result := db.First(&product, "id = ?", id)
 	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return product, gorm.ErrRecordNotFound
+		}
 		return product, errors.New(fmt.Sprintf("Error getting product: %s", result.Error.Error()))
 	}
 

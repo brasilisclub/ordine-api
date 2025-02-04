@@ -18,6 +18,7 @@ func addProductToOrdine(ordId uint, prodId string, quant int) error {
 
 	dbProduct, err := services.GetProductById(prodId)
 	if err != nil {
+
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return product.ErrorProductNotFound
 		}

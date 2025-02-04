@@ -48,7 +48,7 @@ func PostProductsToOrdine(ctx *gin.Context) {
 		}
 
 		ctx.JSON(http.StatusInternalServerError, utils.GenericResponse{
-			Message: fmt.Sprintf("Error trying update ordine: %s", err.Error()),
+			Message: fmt.Sprintf("Internal error trying update ordine: %s", err.Error()),
 		})
 		return
 	}
