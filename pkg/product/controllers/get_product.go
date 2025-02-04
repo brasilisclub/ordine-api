@@ -20,7 +20,7 @@ import (
 // @Success		200		{object}	product.Product
 // @Failure		400		{object}	utils.GenericResponse "Invalid ID or error retrieving product"
 // @Failure		500		{object}	utils.GenericResponse "Internal server error"
-// @Router			/products/{id} [get]
+// @Router			/product/{id} [get]
 func GetProduct(ctx *gin.Context) {
 	product, err := services.GetProductById(ctx.Param("id"))
 	if err != nil {

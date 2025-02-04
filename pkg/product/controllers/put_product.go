@@ -22,7 +22,7 @@ import (
 // @Success		200		{object}	product.Product
 // @Failure		400		{object}	utils.GenericResponse "Invalid body or error updating product"
 // @Failure		500		{object}	utils.GenericResponse "Internal server error"
-// @Router			/products/{id} [put]
+// @Router			/product/{id} [put]
 func PutProduct(ctx *gin.Context) {
 	var product prod.ProductRequestBody
 	if err := ctx.ShouldBindBodyWithJSON(&product); err != nil {

@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"ordine-api/pkg/ordine"
+	"ordine-api/pkg/ordine/order"
 	"ordine-api/pkg/product"
 	"ordine-api/tests"
 	"testing"
@@ -47,7 +48,7 @@ func TestGetOrdine(t *testing.T) {
 			ordineId:           "1",
 			expectedStatusCode: http.StatusOK,
 			setupTest: func() {
-				tests.MakeMigrationsForTests(&ordine.Ordine{}, product.Product{}, ordine.OrderProducts{})
+				tests.MakeMigrationsForTests(&ordine.Ordine{}, product.Product{}, order.OrderProducts{})
 				tests.CreateInsertValueForTests(&ordine.Ordine{
 					ID:         1,
 					Table:      10,
@@ -56,7 +57,7 @@ func TestGetOrdine(t *testing.T) {
 				})
 			},
 			dropDownTest: func() {
-				tests.DropTablesForTests(&ordine.Ordine{}, product.Product{}, ordine.OrderProducts{})
+				tests.DropTablesForTests(&ordine.Ordine{}, product.Product{}, order.OrderProducts{})
 			},
 		},
 	}

@@ -19,7 +19,7 @@ import (
 // @Param			id	path		string	true	"Product ID"
 // @Success		200		{object}	utils.GenericResponse "Product deleted successfully"
 // @Failure		400		{object}	utils.GenericResponse "Error trying to delete the product"
-// @Router			/products/{id} [delete]
+// @Router			/product/{id} [delete]
 func DeleteProduct(ctx *gin.Context) {
 
 	err := services.RemoveProduct(ctx.Param("id"))

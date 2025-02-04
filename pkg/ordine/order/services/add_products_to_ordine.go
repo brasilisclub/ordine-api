@@ -1,16 +1,18 @@
-package order
+package services
 
 import (
 	"errors"
 	"fmt"
-	ord "ordine-api/pkg/ordine"
+
+	"ordine-api/pkg/ordine"
+	"ordine-api/pkg/ordine/order"
 	"ordine-api/pkg/ordine/services"
 	"strconv"
 
 	"gorm.io/gorm"
 )
 
-func AddProductsToOrdine(ordineId string, items []ord.OrderProductBody) (*ord.Ordine, error) {
+func AddProductsToOrdine(ordineId string, items []order.OrderProductBody) (*ordine.Ordine, error) {
 
 	dbOrdine, err := services.GetOrdineById(ordineId)
 

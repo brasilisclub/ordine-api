@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func TestAuthRoutes(t *testing.T) {
+func TestOrderRoutes(t *testing.T) {
 	type args struct {
 		r *gin.Engine
 	}
@@ -16,16 +16,16 @@ func TestAuthRoutes(t *testing.T) {
 		expectedRoutes int
 	}{
 		{
-			name: "Should get all auth routes",
+			name: "Should get all order routes",
 			args: args{
 				r: gin.Default(),
 			},
-			expectedRoutes: 2,
+			expectedRoutes: 1,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			AuthRoutes(tt.args.r)
+			OrderRoutes(tt.args.r)
 			if len(tt.args.r.Routes()) != tt.expectedRoutes {
 				t.Errorf("Invalid routes number, expected %v but got %v ", tt.expectedRoutes, len(tt.args.r.Routes()))
 			}

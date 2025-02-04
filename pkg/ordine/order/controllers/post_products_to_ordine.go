@@ -3,8 +3,8 @@ package controllers
 import (
 	"fmt"
 	"net/http"
-	ord "ordine-api/pkg/ordine"
-	order "ordine-api/pkg/ordine/order"
+	"ordine-api/pkg/ordine/order"
+	"ordine-api/pkg/ordine/order/services"
 	"ordine-api/pkg/utils"
 
 	"github.com/gin-gonic/gin"
@@ -12,17 +12,17 @@ import (
 
 // @Summary		Add products to an ordine
 // @Description	Add products to an existing ordine by its ID
-// @Tags			Ordine
+// @Tags			Order
 // @Accept			json
 // @Produce			json
 // @Param			id	path		string	true	"Ordine ID"
-// @Param			body	body		[]ord.OrderProductBody	true	"Products to add to the ordine"
+// @Param			body	body		[]order.OrderProductBody	true	"Products to add to the ordine"
 // @Success		200		{object}	ordine.Ordine "Updated ordine"
 // @Failure		400		{object}	utils.GenericResponse "Invalid input or error updating ordine"
 // @Failure		500		{object}	utils.GenericResponse "Internal server error"
-// @Router			/ordines/{id}/products [post]
+// @Router			/ordine/{id}/products [post]
 func PostProductsToOrdine(ctx *gin.Context) {
-	var body []ord.OrderProductBody
+	var body []order.OrderProductBody
 
 	err := ctx.ShouldBindBodyWithJSON(&body)
 
@@ -33,7 +33,7 @@ func PostProductsToOrdine(ctx *gin.Context) {
 		return
 	}
 
-	updatedOrdine, err := order.AddProductsToOrdine(ctx.Param("id"), body)
+	updatedOrdine, err := services.AddProductsToOrdine(ctx.Param("id"), body)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, utils.GenericResponse{

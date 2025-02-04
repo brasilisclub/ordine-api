@@ -24,8 +24,8 @@ func TestOrdineRoutes(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			OrdineRoutes(tt.args.r)
-			if len(tt.args.r.Routes()) != 6 {
-				t.Errorf("Expected get 6 routes, but got only %v", len(tt.args.r.Routes()))
+			if len(tt.args.r.Routes()) != 5 {
+				t.Errorf("Expected get 5 routes, but got only %v", len(tt.args.r.Routes()))
 			}
 		})
 	}

@@ -29,14 +29,14 @@ definitions:
       username:
         type: string
     type: object
-  ordine.OrderProductBody:
+  order.OrderProductBody:
     properties:
       product_id:
         type: integer
       quantity:
         type: integer
     type: object
-  ordine.OrderProducts:
+  order.OrderProducts:
     properties:
       created_at:
         type: string
@@ -67,7 +67,7 @@ definitions:
         type: integer
       ordine_products:
         items:
-          $ref: '#/definitions/ordine.OrderProducts'
+          $ref: '#/definitions/order.OrderProducts'
         type: array
       status:
         type: boolean
@@ -84,6 +84,10 @@ definitions:
         type: boolean
       table:
         type: integer
+    required:
+    - client_name
+    - status
+    - table
     type: object
   product.Product:
     properties:
@@ -202,12 +206,16 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
+        "201":
           description: Created ordine
           schema:
             $ref: '#/definitions/ordine.Ordine'
         "400":
-          description: Invalid input or error creating ordine
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+        "500":
+          description: error creating ordine
           schema:
             $ref: '#/definitions/utils.GenericResponse'
       summary: Create a new ordine
@@ -300,6 +308,43 @@ paths:
       summary: Update an ordine
       tags:
       - Ordine
+  /ordine/{id}/products:
+    post:
+      consumes:
+      - application/json
+      description: Add products to an existing ordine by its ID
+      parameters:
+      - description: Ordine ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Products to add to the ordine
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/order.OrderProductBody'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Updated ordine
+          schema:
+            $ref: '#/definitions/ordine.Ordine'
+        "400":
+          description: Invalid input or error updating ordine
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Add products to an ordine
+      tags:
+      - Order
   /ordines:
     get:
       consumes:
@@ -321,64 +366,7 @@ paths:
       summary: Get all ordines
       tags:
       - Ordine
-  /ordines/{id}/products:
-    post:
-      consumes:
-      - application/json
-      description: Add products to an existing ordine by its ID
-      parameters:
-      - description: Ordine ID
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: Products to add to the ordine
-        in: body
-        name: body
-        required: true
-        schema:
-          items:
-            $ref: '#/definitions/ordine.OrderProductBody'
-          type: array
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Updated ordine
-          schema:
-            $ref: '#/definitions/ordine.Ordine'
-        "400":
-          description: Invalid input or error updating ordine
-          schema:
-            $ref: '#/definitions/utils.GenericResponse'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/utils.GenericResponse'
-      summary: Add products to an ordine
-      tags:
-      - Ordine
-  /products:
-    get:
-      consumes:
-      - application/json
-      description: Retrieve a list of all products
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/product.Product'
-            type: array
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/utils.GenericResponse'
-      summary: Get all products
-      tags:
-      - Product
+  /product:
     post:
       consumes:
       - application/json
@@ -408,7 +396,7 @@ paths:
       summary: Create a new product
       tags:
       - Product
-  /products/{id}:
+  /product/{id}:
     delete:
       consumes:
       - application/json
@@ -493,6 +481,27 @@ paths:
           schema:
             $ref: '#/definitions/utils.GenericResponse'
       summary: Update an existing product
+      tags:
+      - Product
+  /products:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of all products
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/product.Product'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Get all products
       tags:
       - Product
 swagger: "2.0"

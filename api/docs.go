@@ -132,14 +132,20 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Created ordine",
                         "schema": {
                             "$ref": "#/definitions/ordine.Ordine"
                         }
                     },
                     "400": {
-                        "description": "Invalid input or error creating ordine",
+                        "description": "Invalid input",
+                        "schema": {
+                            "$ref": "#/definitions/utils.GenericResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "error creating ordine",
                         "schema": {
                             "$ref": "#/definitions/utils.GenericResponse"
                         }
@@ -278,6 +284,62 @@ const docTemplate = `{
                 }
             }
         },
+        "/ordine/{id}/products": {
+            "post": {
+                "description": "Add products to an existing ordine by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Add products to an ordine",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Ordine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Products to add to the ordine",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/order.OrderProductBody"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated ordine",
+                        "schema": {
+                            "$ref": "#/definitions/ordine.Ordine"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input or error updating ordine",
+                        "schema": {
+                            "$ref": "#/definitions/utils.GenericResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.GenericResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/ordines": {
             "get": {
                 "description": "Retrieve a list of all ordines",
@@ -310,93 +372,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/ordines/{id}/products": {
-            "post": {
-                "description": "Add products to an existing ordine by its ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Ordine"
-                ],
-                "summary": "Add products to an ordine",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Ordine ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Products to add to the ordine",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ordine.OrderProductBody"
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Updated ordine",
-                        "schema": {
-                            "$ref": "#/definitions/ordine.Ordine"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid input or error updating ordine",
-                        "schema": {
-                            "$ref": "#/definitions/utils.GenericResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/utils.GenericResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/products": {
-            "get": {
-                "description": "Retrieve a list of all products",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Product"
-                ],
-                "summary": "Get all products",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/product.Product"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/utils.GenericResponse"
-                        }
-                    }
-                }
-            },
+        "/product": {
             "post": {
                 "description": "Create a new product based on the provided data",
                 "consumes": [
@@ -442,7 +418,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/products/{id}": {
+        "/product/{id}": {
             "get": {
                 "description": "Retrieve a product based on the given ID",
                 "consumes": [
@@ -572,6 +548,38 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/products": {
+            "get": {
+                "description": "Retrieve a list of all products",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Get all products",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/product.Product"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.GenericResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -621,7 +629,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ordine.OrderProductBody": {
+        "order.OrderProductBody": {
             "type": "object",
             "properties": {
                 "product_id": {
@@ -632,7 +640,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ordine.OrderProducts": {
+        "order.OrderProducts": {
             "type": "object",
             "properties": {
                 "created_at": {
@@ -679,7 +687,7 @@ const docTemplate = `{
                 "ordine_products": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ordine.OrderProducts"
+                        "$ref": "#/definitions/order.OrderProducts"
                     }
                 },
                 "status": {
@@ -695,6 +703,11 @@ const docTemplate = `{
         },
         "ordine.OrdineRequestBody": {
             "type": "object",
+            "required": [
+                "client_name",
+                "status",
+                "table"
+            ],
             "properties": {
                 "client_name": {
                     "type": "string"

@@ -21,7 +21,7 @@ import (
 // @Success		201		{object}	product.Product
 // @Failure		400		{object}	utils.GenericResponse "Invalid body or bad request"
 // @Failure		500		{object}	utils.GenericResponse "Internal server error"
-// @Router			/products [post]
+// @Router			/product [post]
 func PostProduct(ctx *gin.Context) {
 	var product prod.ProductRequestBody
 	err := ctx.ShouldBindBodyWithJSON(&product)
