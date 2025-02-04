@@ -14,7 +14,9 @@ func Connect() {
 	dsn := getDsn()
 	c, err := getConnection(dsn)
 	if err != nil {
-		logrus.Fatalf("error connecting to database %s", err.Error())
+		c.Error = err
+		logrus.Errorf("error connecting to database %s", err.Error())
+
 	}
 	connection = c
 
