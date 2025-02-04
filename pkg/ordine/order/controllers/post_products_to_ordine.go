@@ -1,10 +1,13 @@
 package controllers
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
+	"ordine-api/pkg/ordine"
 	"ordine-api/pkg/ordine/order"
 	"ordine-api/pkg/ordine/order/services"
+	"ordine-api/pkg/product"
 	"ordine-api/pkg/utils"
 
 	"github.com/gin-gonic/gin"
@@ -36,6 +39,14 @@ func PostProductsToOrdine(ctx *gin.Context) {
 	updatedOrdine, err := services.AddProductsToOrdine(ctx.Param("id"), body)
 
 	if err != nil {
+
+		if errors.Is(err, ordine.ErrorOrdineNotFound) || errors.Is(err, product.ErrorProductNotFound) {
+			ctx.JSON(http.StatusBadRequest, utils.GenericResponse{
+				Message: err.Error(),
+			})
+			return
+		}
+
 		ctx.JSON(http.StatusInternalServerError, utils.GenericResponse{
 			Message: fmt.Sprintf("Error trying update ordine: %s", err.Error()),
 		})

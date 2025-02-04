@@ -18,7 +18,7 @@ func AddProductsToOrdine(ordineId string, items []order.OrderProductBody) (*ordi
 
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, fmt.Errorf("ordine with id %s not founded", ordineId)
+			return nil, ordine.ErrorOrdineNotFound
 		}
 		return nil, fmt.Errorf("error getting ordine on db: %w", err)
 
