@@ -18,8 +18,9 @@ import (
 // @Accept			json
 // @Produce			json
 // @Param			body	body		ord.OrdineRequestBody	true	"Ordine data"
-// @Success		200		{object}	ordine.Ordine "Created ordine"
-// @Failure		400		{object}	utils.GenericResponse "Invalid input or error creating ordine"
+// @Success		201		{object}	ordine.Ordine "Created ordine"
+// @Failure		400		{object}	utils.GenericResponse "Invalid input"
+// @Failure		500		{object}	utils.GenericResponse "error creating ordine"
 // @Router			/ordine [post]
 func PostOrdine(ctx *gin.Context) {
 	var ordine ord.OrdineRequestBody
@@ -33,11 +34,11 @@ func PostOrdine(ctx *gin.Context) {
 	}
 	result, err := services.CreateOrdine(&ordine)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, utils.GenericResponse{
+		ctx.JSON(http.StatusInternalServerError, utils.GenericResponse{
 			Message: fmt.Sprintf("Error trying to create ordine: %s", err.Error()),
 		})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, result)
+	ctx.JSON(http.StatusCreated, result)
 }
