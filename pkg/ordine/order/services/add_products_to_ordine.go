@@ -2,40 +2,43 @@ package services
 
 import (
 	"errors"
-	"fmt"
 
 	"ordine-api/pkg/ordine"
 	"ordine-api/pkg/ordine/order"
 	"ordine-api/pkg/ordine/services"
-	"strconv"
+	"ordine-api/pkg/product"
+	"ordine-api/pkg/utils"
 
 	"gorm.io/gorm"
 )
 
 func AddProductsToOrdine(ordineId string, items []order.OrderProductBody) (*ordine.Ordine, error) {
 
-	dbOrdine, err := services.GetOrdineById(ordineId)
+	var ord ordine.Ordine
 
-	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, ordine.ErrorOrdineNotFound
+	if err := services.OrdineExists(ordineId); err != nil {
+		if errors.Is(gorm.ErrRecordNotFound, err) {
+			return &ord, ordine.ErrorOrdineNotFound
 		}
-		return nil, fmt.Errorf("error getting ordine on db: %w", err)
-
+		return &ord, err
 	}
 
 	for _, item := range items {
 
-		productId := strconv.FormatUint(uint64(item.ProductID), 10)
-		err := addProductToOrdine(dbOrdine.ID, productId, item.Quantity)
+		convertedOrdId, _ := utils.StringToUint(ordineId)
+
+		err := addProductToOrdine(convertedOrdId, uint(item.ProductID), item.Quantity)
 
 		if err != nil {
-			return nil, err
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return &ord, product.ErrorProductNotFound
+			}
+			return &ord, err
 		}
 	}
 
-	newOrdine, _ := services.GetOrdineById(strconv.FormatUint(uint64(dbOrdine.ID), 10))
+	ord, _ = services.GetOrdineById(ordineId)
 
-	return &newOrdine, nil
+	return &ord, nil
 
 }

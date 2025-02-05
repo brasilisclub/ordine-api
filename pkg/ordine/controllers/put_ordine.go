@@ -33,6 +33,7 @@ func PutOrdine(ctx *gin.Context) {
 		})
 		return
 	}
+
 	updatedOrdine, err := services.UpdateOrdine(ctx.Param("id"), &ordine)
 	if err != nil {
 		if errors.Is(err, ord.ErrorOrdineNotFound) {

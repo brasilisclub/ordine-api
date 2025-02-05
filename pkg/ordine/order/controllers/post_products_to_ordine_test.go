@@ -97,11 +97,13 @@ func TestPostProductsToOrdine(t *testing.T) {
 			setUpTest: func() {
 				tests.MakeMigrationsForTests(&product.Product{}, &ordine.Ordine{}, order.OrderProducts{})
 				tests.CreateInsertValueForTests(&ordine.Ordine{
+					ID:         1,
 					Table:      8,
 					ClientName: "test",
 					Status:     true,
 				})
 				tests.CreateInsertValueForTests(&product.Product{
+					ID:          1,
 					Name:        "test",
 					Category:    "test",
 					Price:       9.99,

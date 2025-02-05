@@ -12,7 +12,7 @@ type envs struct {
 	DATABASE_PASSWORD string `json:"DATABASE_PASSWORD" env:"DATABASE_PASSWORD" default:"root"`
 	DATABASE_PORT     string `json:"DATABASE_PORT" env:"DATABASE_PORT" default:"3306"`
 	DATABASE_USER     string `json:"DATABASE_USER" env:"DATABASE_USER" default:"root"`
-	ENVIRONMENT       string `json:"ENVIRONMENT" env:"ENVIRONMENT" default:"local"`
+	ENVIRONMENT       string `json:"ENVIRONMENT" env:"ENVIRONMENT" default:"testing"`
 	JWT_SECRET_TOKEN  string `json:"JWT_SECRET_TOKEN" env:"JWT_SECRET_TOKEN" default:"secret"`
 	LOG_LEVEL         string `json:"LOG_LEVEL" env:"LOG_LEVEL" default:"info"`
 	PORT              string `json:"PORTS" env:"PORTS" default:"8080"`
