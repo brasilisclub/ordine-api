@@ -4,19 +4,19 @@ import (
 	"errors"
 	"fmt"
 	"ordine-api/pkg/database"
-	ord "ordine-api/pkg/ordine"
+	"ordine-api/pkg/ordine"
 
 	"gorm.io/gorm"
 )
 
-func UpdateOrdine(id string, o *ord.OrdineRequestBody) (*ord.Ordine, error) {
+func UpdateOrdine(id string, o *ordine.OrdineRequestBody) (*ordine.Ordine, error) {
 	db := database.GetConnector()
 
 	dbOrdine, err := GetOrdineById(id)
 
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, fmt.Errorf("ordine with id %s not founded", id)
+			return nil, ordine.ErrorOrdineNotFound
 		}
 		return nil, fmt.Errorf("error getting ordine on db: %w", err)
 

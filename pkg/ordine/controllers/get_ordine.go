@@ -1,8 +1,10 @@
 package controllers
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
+	ord "ordine-api/pkg/ordine"
 	"ordine-api/pkg/ordine/services"
 	"ordine-api/pkg/utils"
 
@@ -20,10 +22,15 @@ import (
 // @Success		200		{object}	ordine.Ordine "Ordine data"
 // @Failure		400		{object}	utils.GenericResponse "Invalid ID format"
 // @Failure		500		{object}	utils.GenericResponse "Internal server error"
-// @Router			/ordines/{id} [get]
+// @Router			/ordine/{id} [get]
 func GetOrdine(ctx *gin.Context) {
 	ordine, err := services.GetOrdineById(ctx.Param("id"))
 	if err != nil {
+		if errors.Is(ord.ErrorOrdineNotFound, err) {
+			ctx.JSON(http.StatusBadRequest, utils.GenericResponse{
+				Message: err.Error(),
+			})
+		}
 		ctx.JSON(http.StatusInternalServerError, utils.GenericResponse{
 			Message: fmt.Sprintf("An unexpected error occurred while processing the request: %s", err.Error()),
 		})

@@ -1,0 +1,507 @@
+definitions:
+  auth.AuthRequestBody:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  auth.LoginUserSuccessResponse:
+    properties:
+      token:
+        type: string
+    type: object
+  auth.User:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  order.OrderProductBody:
+    properties:
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+    type: object
+  order.OrderProducts:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: integer
+      ordine_id:
+        type: integer
+      product:
+        $ref: '#/definitions/product.Product'
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  ordine.Ordine:
+    properties:
+      client_name:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: integer
+      ordine_products:
+        items:
+          $ref: '#/definitions/order.OrderProducts'
+        type: array
+      status:
+        type: boolean
+      table:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  ordine.OrdineRequestBody:
+    properties:
+      client_name:
+        type: string
+      status:
+        type: boolean
+      table:
+        type: integer
+    required:
+    - client_name
+    - status
+    - table
+    type: object
+  product.Product:
+    properties:
+      category:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+      stock:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  product.ProductRequestBody:
+    properties:
+      category:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      stock:
+        type: integer
+    type: object
+  utils.GenericResponse:
+    properties:
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login for a User
+      parameters:
+      - description: User data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/auth.AuthRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth.LoginUserSuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Login
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register for a User
+      parameters:
+      - description: User data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/auth.AuthRequestBody'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/auth.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Register
+      tags:
+      - Auth
+  /ordine:
+    post:
+      consumes:
+      - application/json
+      description: Create a new ordine with the provided data
+      parameters:
+      - description: Ordine data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/ordine.OrdineRequestBody'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created ordine
+          schema:
+            $ref: '#/definitions/ordine.Ordine'
+        "400":
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+        "500":
+          description: error creating ordine
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Create a new ordine
+      tags:
+      - Ordine
+  /ordine/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an ordine based on the given ID
+      parameters:
+      - description: Ordine id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Resource deleted successfully
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+        "400":
+          description: Error trying to delete ordine
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Delete ordine
+      tags:
+      - Ordine
+    get:
+      consumes:
+      - application/json
+      description: Retrieve an ordine by its unique ID
+      parameters:
+      - description: Ordine ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ordine data
+          schema:
+            $ref: '#/definitions/ordine.Ordine'
+        "400":
+          description: Invalid ID format
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Get ordine by ID
+      tags:
+      - Ordine
+    put:
+      consumes:
+      - application/json
+      description: Update an existing ordine by its ID
+      parameters:
+      - description: Ordine ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Ordine data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/ordine.OrdineRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Updated ordine"  // Retorna o ordine atualizado
+          schema:
+            $ref: '#/definitions/ordine.Ordine'
+        "400":
+          description: Invalid input or error updating ordine
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Update an ordine
+      tags:
+      - Ordine
+  /ordine/{id}/products:
+    post:
+      consumes:
+      - application/json
+      description: Add products to an existing ordine by its ID
+      parameters:
+      - description: Ordine ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Products to add to the ordine
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/order.OrderProductBody'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Updated ordine
+          schema:
+            $ref: '#/definitions/ordine.Ordine'
+        "400":
+          description: Invalid input or error updating ordine
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Add products to an ordine
+      tags:
+      - Order
+  /ordines:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of all ordines
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of ordines
+          schema:
+            items:
+              $ref: '#/definitions/ordine.Ordine'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Get all ordines
+      tags:
+      - Ordine
+  /product:
+    post:
+      consumes:
+      - application/json
+      description: Create a new product based on the provided data
+      parameters:
+      - description: Product data
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/product.ProductRequestBody'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/product.Product'
+        "400":
+          description: Invalid body or bad request
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Create a new product
+      tags:
+      - Product
+  /product/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a product by its ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Product deleted successfully
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+        "400":
+          description: Error trying to delete the product
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Delete a product
+      tags:
+      - Product
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a product based on the given ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/product.Product'
+        "400":
+          description: Invalid ID or error retrieving product
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Get a product by ID
+      tags:
+      - Product
+    put:
+      consumes:
+      - application/json
+      description: Update a product based on the given ID and provided details
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Product data
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/product.ProductRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/product.Product'
+        "400":
+          description: Invalid body or error updating product
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Update an existing product
+      tags:
+      - Product
+  /products:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of all products
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/product.Product'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.GenericResponse'
+      summary: Get all products
+      tags:
+      - Product
+swagger: "2.0"

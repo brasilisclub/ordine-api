@@ -1,20 +1,47 @@
 services:
-  api: 
-    image: matheushpr9/ordine-api-app:v1.0.3
-    command: go run main.go run
+  test: &defaults
+    build:
+      context: .
+      dockerfile: build/go/Dockerfile
+    working_dir: /app
+    command: >-
+      sh -c "
+      go build -race -o entrypoint_test_ignored main.go
+      && go test -coverprofile=profile.cov ./..."
+    env_file:
+      - ./.docker/test.env
     volumes:
-      - .:/app
+      - .:/app/
+      - go_packages:/go
+
+  app:
+    <<: *defaults
+    command: go run main.go
+    ports:
+      - 8080:8080
+    env_file:
+      - ./.docker/dev.env
     depends_on:
       database:
         condition: service_healthy
-    environment:
-      LOG_LEVEL: INFO
-      ALLOWED_ORIGINS: localhost,https://test.com
-    ports:
-      - "8080:8080"
+  migrate:
+    <<: *defaults
+    env_file:
+      - ./.docker/dev.env
+    command: go run main.go migrate
+    
+    depends_on:
+      database:
+        condition: service_healthy
+
+  update-docs:
+    <<: *defaults
+    command: swag init -o api
 
   database:
-    image: matheushpr9/ordine-api-database:v1.0.1
+    build:
+      context: .
+      dockerfile: build/mysql/Dockerfile
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: bob_live
@@ -24,13 +51,14 @@ services:
     volumes:
       - database:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-uroot", "-proot"]
-      interval: 10s
-      retries: 30
-      start_period: 60s
+      test:  ["CMD", "mysql", "-uroot", "-proot", "-e", "SELECT 1"]
+      interval: 2s
+      retries: 100
+      start_period: 10s
       timeout: 5s
     ports:
       - "3306:3306"
 
 volumes:
   database: {}
+  go_packages: {} 

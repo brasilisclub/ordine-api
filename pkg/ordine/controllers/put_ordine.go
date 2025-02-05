@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	ord "ordine-api/pkg/ordine"
@@ -22,7 +23,7 @@ import (
 // @Success		200		{object}	ordine.Ordine "Updated ordine"  // Retorna o ordine atualizado
 // @Failure		400		{object}	utils.GenericResponse "Invalid input or error updating ordine"
 // @Failure		500		{object}	utils.GenericResponse "Internal server error"
-// @Router			/ordines/{id} [put]
+// @Router			/ordine/{id} [put]
 func PutOrdine(ctx *gin.Context) {
 	var ordine ord.OrdineRequestBody
 	err := ctx.ShouldBindBodyWithJSON(&ordine)
@@ -32,8 +33,15 @@ func PutOrdine(ctx *gin.Context) {
 		})
 		return
 	}
+
 	updatedOrdine, err := services.UpdateOrdine(ctx.Param("id"), &ordine)
 	if err != nil {
+		if errors.Is(err, ord.ErrorOrdineNotFound) {
+			ctx.JSON(http.StatusBadRequest, utils.GenericResponse{
+				Message: err.Error(),
+			})
+			return
+		}
 		ctx.JSON(http.StatusInternalServerError, utils.GenericResponse{
 			Message: fmt.Sprintf("Error trying update ordine: %s", err.Error()),
 		})

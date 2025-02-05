@@ -11,7 +11,7 @@ func UserExists(userName string) bool {
 	_, err := getUserFromDb(userName)
 	if err != nil {
 		if !errors.Is(err, gorm.ErrRecordNotFound) {
-			logrus.Panicf("Error trying to get user from DB: %s", err.Error())
+			logrus.Errorf("Error trying to get user from DB: %s", err.Error())
 		}
 
 		return false
